@@ -33,7 +33,15 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter/400Regular",
+            "node_modules/@expo-google-fonts/inter/600SemiBold"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

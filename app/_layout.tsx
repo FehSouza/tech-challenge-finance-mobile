@@ -1,4 +1,4 @@
-import { SplashScreenController } from '@/components/SplashScreenController';
+import { SplashScreenController } from '@/components';
 import { dispatchIsFontReady, useIsAuthenticatedSelect } from '@/states';
 import { theme } from '@/theme';
 import { Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';

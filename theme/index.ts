@@ -7,6 +7,7 @@ export const theme = {
     gray800: '#191919',
     gray900: '#181818',
     green600: '#47A138',
+    error: '#bf1313',
   },
 
   fontFamily: {

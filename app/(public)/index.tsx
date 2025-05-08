@@ -1,3 +1,4 @@
+import { Input } from '@/components';
 import { dispatchIsAuthenticated } from '@/states';
 import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
@@ -14,6 +15,10 @@ export default function Login() {
       <Text style={style.text}>LOGIN</Text>
       <Button title='Entrar' onPress={handleLogin} />
       <Button title='Criar conta' onPress={handleRegister} />
+
+      <Input placeholder='E-mail' />
+
+      <Input placeholder='Senha' />
     </View>
   );
 }

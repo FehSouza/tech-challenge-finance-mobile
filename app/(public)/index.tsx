@@ -1,8 +1,8 @@
-import { Input } from '@/components';
+import { Button, ContainerKeyboardAvoiding, Input, LogoIcon } from '@/components';
 import { dispatchIsAuthenticated } from '@/states';
-import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Login() {
   const router = useRouter();
@@ -11,25 +11,33 @@ export default function Login() {
   const handleRegister = () => router.navigate('/register');
 
   return (
-    <View style={style.container}>
-      <Text style={style.text}>LOGIN</Text>
-      <Button title='Entrar' onPress={handleLogin} />
-      <Button title='Criar conta' onPress={handleRegister} />
+    <ContainerKeyboardAvoiding>
+      <SafeAreaView style={style.container}>
+        <LogoIcon />
 
-      <Input placeholder='E-mail' />
-
-      <Input placeholder='Senha' />
-    </View>
+        <View style={style.form}>
+          <Input placeholder='E-mail' />
+          <Input placeholder='Senha' />
+          <Button onPress={handleLogin}>Entrar</Button>
+          <Button variant='outlined' onPress={handleRegister}>
+            Criar conta
+          </Button>
+        </View>
+      </SafeAreaView>
+    </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.black,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 80,
   },
 
-  text: {
-    color: theme.colors.white,
+  form: {
+    gap: 16,
+    paddingHorizontal: 25,
   },
 });

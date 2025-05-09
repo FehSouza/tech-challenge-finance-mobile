@@ -30,7 +30,7 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   return (
-    <SafeAreaView style={[style.container, StyleSheet.absoluteFill]}>
+    <SafeAreaView style={[style.container, StyleSheet.absoluteFill]} edges={['top', 'left', 'right']}>
       <StatusBar backgroundColor={theme.colors.black} barStyle='light-content' translucent />
       <SplashScreenController>
         <MainRoutes />

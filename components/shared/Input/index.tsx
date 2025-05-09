@@ -67,12 +67,13 @@ const style = StyleSheet.create({
   input: {
     height: '100%',
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 0,
     backgroundColor: 'transparent',
     borderWidth: 0,
     fontFamily: theme.fontFamily.inter400,
     fontSize: 16,
+    lineHeight: 18,
     color: theme.colors.white,
   },
 });

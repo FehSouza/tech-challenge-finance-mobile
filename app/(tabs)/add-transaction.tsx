@@ -1,25 +1,33 @@
-import { dispatchIsAuthenticated } from '@/states';
+import { ContainerKeyboardAvoiding, FormTransaction } from '@/components';
 import { theme } from '@/theme';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
 export default function AddTransaction() {
-  const handleLogout = () => dispatchIsAuthenticated(false);
-
   return (
-    <View style={style.container}>
-      <Text style={style.text}>AddTransaction</Text>
-      <Button title='Sair' onPress={handleLogout} />
-    </View>
+    <ContainerKeyboardAvoiding>
+      <SafeAreaView style={style.container}>
+        <Text style={style.title}>Nova transação</Text>
+        <FormTransaction />
+      </SafeAreaView>
+    </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.black,
+    alignItems: 'center',
+    gap: 32,
   },
 
-  text: {
+  title: {
+    width: '100%',
+    fontFamily: theme.fontFamily.inter600,
+    fontSize: 24,
+    lineHeight: 28,
     color: theme.colors.white,
+    textAlign: 'left',
+    paddingHorizontal: 25,
+    marginTop: 32,
   },
 });

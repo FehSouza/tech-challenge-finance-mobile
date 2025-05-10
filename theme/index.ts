@@ -3,10 +3,12 @@ export const theme = {
     white: '#FFFFFF',
     black: '#000000',
     gray400: '#919191',
+    gray500: '#767676',
     gray600: '#484848',
     gray800: '#191919',
     gray900: '#181818',
-    green600: '#47A138',
+    primary: '#47A138',
+    error: '#bf1313',
   },
 
   fontFamily: {

@@ -1,6 +1,6 @@
 import Svg, { Path } from 'react-native-svg';
 
-export const LogoVertical = () => {
+export const LogoIcon = () => {
   return (
     <Svg width='237' height='52' viewBox='0 0 237 52' fill='none'>
       <Path

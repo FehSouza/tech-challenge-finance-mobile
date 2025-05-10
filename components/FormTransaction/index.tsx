@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { CategoriesOptionsSelect } from '../CategoriesOptionsSelect';
 import { Button, Input } from '../shared';
+import { TransactionOptionsSelect } from '../TransactionOptionsSelect';
 
 interface FormTransactionProps {
   id?: string;
@@ -11,7 +13,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
 
   return (
     <View style={style.form}>
-      <Input placeholder='Select - Tipo da transação' />
+      <TransactionOptionsSelect />
       <Input placeholder='Digite o título da transação' />
       <Input placeholder='Digite o valor da transação' />
       <Input placeholder='Data da transação' />
@@ -24,7 +26,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
 
       {showAdvancedOptions && (
         <>
-          <Input placeholder='Select - Categoria da transação' />
+          <CategoriesOptionsSelect />
           <Button variant='outlined'>Upload de arquivos</Button>
         </>
       )}

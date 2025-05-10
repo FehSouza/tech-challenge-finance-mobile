@@ -9,6 +9,7 @@ export const theme = {
     gray900: '#181818',
     primary: '#47A138',
     error: '#bf1313',
+    overlay: '#000000d9',
   },
 
   fontFamily: {

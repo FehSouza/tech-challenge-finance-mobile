@@ -6,4 +6,5 @@ export * from './FormTransaction';
 export * from './icons';
 export * from './shared';
 export * from './SplashScreenController';
+export * from './TransactionDate';
 export * from './TransactionOptionsSelect';

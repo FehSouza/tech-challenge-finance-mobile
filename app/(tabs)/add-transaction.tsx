@@ -18,6 +18,7 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     gap: 32,
+    marginVertical: 32,
   },
 
   title: {
@@ -28,6 +29,5 @@ const style = StyleSheet.create({
     color: theme.colors.white,
     textAlign: 'left',
     paddingHorizontal: 25,
-    marginTop: 32,
   },
 });

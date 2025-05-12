@@ -34,5 +34,8 @@ const style = StyleSheet.create({
 
   content: {
     flexGrow: 1,
+    alignItems: 'center',
+    gap: 32,
+    paddingVertical: 32,
   },
 });

@@ -1,3 +1,4 @@
+export * from './BalanceValue';
 export * from './CategoriesOptionsSelect';
 export * from './ContainerKeyboardAvoiding';
 export * from './FormSignIn';

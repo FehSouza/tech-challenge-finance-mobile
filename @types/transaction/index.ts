@@ -1,3 +1,7 @@
+import { DepositIcon } from '@/components/icons/DepositIcon';
+import { InvestmentIcon } from '@/components/icons/InvestmentIcon';
+import { TransferIcon } from '@/components/icons/TransferIcon';
+import { WithdrawIcon } from '@/components/icons/WithdrawIcon';
 import { CategoryType } from '../category';
 import { ConvertUnionToTuple } from '../utils';
 
@@ -19,6 +23,13 @@ export const TRANSACTIONS_TYPES_DICTIONARY_MAP = {
 export const TRANSACTIONS_TYPES_DICTIONARY_VALUES = Object.values(
   TRANSACTIONS_TYPES_DICTIONARY
 ) as TransactionTypeDictionaryValues;
+
+export const TRANSACTIONS_TYPES_DICTIONARY_ICONS = {
+  deposit: DepositIcon,
+  withdraw: WithdrawIcon,
+  investment: InvestmentIcon,
+  transfer: TransferIcon,
+};
 
 export const MONTHS_DICTIONARY = {
   January: 'Janeiro',

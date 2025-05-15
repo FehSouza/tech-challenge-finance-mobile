@@ -24,18 +24,18 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Minha carteira</Text>
+    <View style={style.container}>
+      <Text style={style.title}>Minha carteira</Text>
 
-      <TouchableOpacity style={styles.button} onPress={handleShowValue} activeOpacity={0.8}>
+      <TouchableOpacity style={style.button} onPress={handleShowValue} activeOpacity={0.8}>
         {showBalanceValue ? <EyeIcon /> : <EyeCloseIcon />}
-        <Text style={styles.text}>{showBalanceValue ? formatCurrency(balance / 100) || '0,00' : '*****'}</Text>
+        <Text style={style.text}>{showBalanceValue ? formatCurrency(balance / 100) || '0,00' : '*****'}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     paddingHorizontal: 25,
   },

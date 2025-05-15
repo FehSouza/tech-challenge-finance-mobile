@@ -1,7 +1,7 @@
-import { ContainerKeyboardAvoiding, FormTransaction } from '@/components';
+import { ButtonIcon, ContainerKeyboardAvoiding, FormTransaction, TrashIcon } from '@/components';
 import { theme } from '@/theme';
 import { useLocalSearchParams } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function EditTransaction() {
   const { id } = useLocalSearchParams();
@@ -9,20 +9,34 @@ export default function EditTransaction() {
 
   return (
     <ContainerKeyboardAvoiding>
-      <Text style={style.title}>Editar transação</Text>
+      <View style={style.container}>
+        <Text style={style.title}>Editar transação</Text>
+
+        <ButtonIcon color='error'>
+          <TrashIcon />
+        </ButtonIcon>
+      </View>
+
       <FormTransaction id={Array.isArray(id) ? id[0] : id} />
     </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
-  title: {
+  container: {
     width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 16,
+    paddingHorizontal: 25,
+  },
+
+  title: {
     fontFamily: theme.fontFamily.inter600,
     fontSize: 24,
     lineHeight: 28,
     color: theme.colors.white,
     textAlign: 'left',
-    paddingHorizontal: 25,
   },
 });

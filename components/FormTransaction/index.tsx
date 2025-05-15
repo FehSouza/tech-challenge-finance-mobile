@@ -1,5 +1,6 @@
 import { theme } from '@/theme';
 import { maskCurrency } from '@/utils';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { CategoriesOptionsSelect } from '../CategoriesOptionsSelect';
@@ -12,8 +13,11 @@ interface FormTransactionProps {
 }
 
 export const FormTransaction = ({ id }: FormTransactionProps) => {
+  const router = useRouter();
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [amount, setAmount] = useState('');
+
+  const handleGoBack = () => router.back();
 
   return (
     <View style={style.form}>
@@ -55,6 +59,12 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
       )}
 
       <Button>{id ? 'Atualizar' : 'Concluir transação'}</Button>
+
+      {id && (
+        <Button variant='outlined' onPress={handleGoBack}>
+          Cancelar
+        </Button>
+      )}
     </View>
   );
 };

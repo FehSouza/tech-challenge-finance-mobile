@@ -1,52 +1,30 @@
 import { theme } from '@/theme';
-import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
-interface ButtonProps extends TouchableOpacityProps {
+interface ButtonIconProps extends TouchableOpacityProps {
   children: React.ReactNode;
   variant?: 'texted' | 'outlined' | 'contained' | 'input';
   color?: 'primary' | 'secondary' | 'error';
-  textAlign?: 'left' | 'center' | 'right';
-  textActive?: boolean;
 }
 
-export const Button = ({
-  variant = 'contained',
-  color = 'primary',
-  textAlign = 'center',
-  textActive,
-  children,
-  ...props
-}: ButtonProps) => {
+export const ButtonIcon = ({ variant = 'contained', color = 'primary', children, ...props }: ButtonIconProps) => {
   const buttonStyle = [style.base, style[`${variant}_${color}`]];
-
-  const textStyle = [
-    style.textBase,
-    style[`text_${variant}_${color}`],
-    style[`text_${textAlign}`],
-    textActive && style.textActive,
-  ];
 
   return (
     <TouchableOpacity style={buttonStyle} activeOpacity={0.8} {...props}>
-      <Text style={textStyle}>{children}</Text>
+      {children}
     </TouchableOpacity>
   );
 };
 
 const style = StyleSheet.create({
   base: {
+    minWidth: 40,
     minHeight: 40,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  textBase: {
-    width: '100%',
-    fontFamily: theme.fontFamily.inter600,
-    fontSize: 16,
-    lineHeight: 18,
+    padding: 6,
   },
 
   // Cores por variante
@@ -109,65 +87,5 @@ const style = StyleSheet.create({
     backgroundColor: theme.colors.error,
     borderWidth: 2,
     borderColor: theme.colors.error,
-  },
-
-  // Cores do texto por variante
-  text_contained_primary: {
-    color: theme.colors.white,
-  },
-  text_contained_secondary: {
-    color: theme.colors.white,
-  },
-  text_contained_error: {
-    color: theme.colors.white,
-  },
-
-  text_outlined_primary: {
-    color: theme.colors.primary,
-  },
-  text_outlined_secondary: {
-    color: theme.colors.gray600,
-  },
-  text_outlined_error: {
-    color: theme.colors.error,
-  },
-
-  text_texted_primary: {
-    color: theme.colors.primary,
-  },
-  text_texted_secondary: {
-    color: theme.colors.gray600,
-  },
-  text_texted_error: {
-    color: theme.colors.error,
-  },
-
-  text_input_primary: {
-    fontFamily: theme.fontFamily.inter400,
-    color: theme.colors.gray400,
-  },
-  text_input_secondary: {
-    fontFamily: theme.fontFamily.inter400,
-    color: theme.colors.white,
-  },
-  text_input_error: {
-    fontFamily: theme.fontFamily.inter400,
-    color: theme.colors.error,
-  },
-
-  // Alinhamentos
-  text_left: {
-    textAlign: 'left',
-  },
-  text_center: {
-    textAlign: 'center',
-  },
-  text_right: {
-    textAlign: 'right',
-  },
-
-  // Texto ativo
-  textActive: {
-    color: theme.colors.white,
   },
 });

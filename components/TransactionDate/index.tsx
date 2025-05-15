@@ -48,12 +48,16 @@ export const TransactionDate = () => {
 
       {show && isIOS && (
         <View style={style.buttonsContainer}>
-          <Button variant='outlined' styles={{ width: '49%' }} onPress={handleIOSCancel}>
-            Cancelar
-          </Button>
-          <Button variant='outlined' styles={{ width: '49%' }} onPress={handleIOSSave}>
-            Salvar
-          </Button>
+          <View style={style.button}>
+            <Button variant='outlined' onPress={handleIOSCancel}>
+              Cancelar
+            </Button>
+          </View>
+          <View style={style.button}>
+            <Button variant='outlined' onPress={handleIOSSave}>
+              Salvar
+            </Button>
+          </View>
         </View>
       )}
     </>
@@ -65,5 +69,9 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     justifyContent: 'space-between',
+  },
+
+  button: {
+    flex: 1,
   },
 });

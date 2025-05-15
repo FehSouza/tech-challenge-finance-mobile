@@ -24,23 +24,23 @@ export const TransactionCard = ({ transaction }: TransactionCardProps) => {
   const handleNavigate = () => router.navigate(`/edit-transaction/${id}`);
 
   return (
-    <TouchableOpacity style={styles.transaction} onPress={handleNavigate} activeOpacity={0.8}>
+    <TouchableOpacity style={style.transaction} onPress={handleNavigate} activeOpacity={0.8}>
       <ConditionTransactionIcon condition={typeKey} />
 
-      <View style={styles.wrapperTitle}>
-        <Text style={styles.titleText}>{title}</Text>
-        {category && category !== 'Sem Categoria' && <Text style={styles.categoryText}>{category}</Text>}
+      <View style={style.wrapperTitle}>
+        <Text style={style.titleText}>{title}</Text>
+        {category && category !== 'Sem Categoria' && <Text style={style.categoryText}>{category}</Text>}
       </View>
 
-      <View style={styles.wrapperAmount}>
-        <Text style={styles.amountText}>{formatCurrency(amount)}</Text>
-        <Text style={[styles.typeText, negative && styles.typeTextNegative]}>{type}</Text>
+      <View style={style.wrapperAmount}>
+        <Text style={style.amountText}>{formatCurrency(amount)}</Text>
+        <Text style={[style.typeText, negative && style.typeTextNegative]}>{type}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   transaction: {
     flexDirection: 'row',
     alignItems: 'center',

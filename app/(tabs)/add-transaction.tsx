@@ -20,5 +20,6 @@ const style = StyleSheet.create({
     color: theme.colors.white,
     textAlign: 'left',
     paddingHorizontal: 25,
+    marginBottom: 32,
   },
 });

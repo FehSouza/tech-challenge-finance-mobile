@@ -37,6 +37,7 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
 
 const style = StyleSheet.create({
   container: {
+    width: '100%',
     paddingHorizontal: 25,
   },
 

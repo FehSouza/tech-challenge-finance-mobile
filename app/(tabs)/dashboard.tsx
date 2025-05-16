@@ -1,4 +1,4 @@
-import { BalanceValue, ExtractSummary, Filter, Search } from '@/components';
+import { BalanceValue, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
 import { TRANSACTIONS_MOCK } from '@/mock';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
@@ -8,7 +8,7 @@ export default function Dashboard() {
   const balanceValue = balance(TRANSACTIONS_MOCK);
 
   return (
-    <View style={style.container}>
+    <ContainerKeyboardAvoiding>
       <BalanceValue balance={balanceValue} />
 
       <Text style={style.title}>Últimas transações</Text>
@@ -19,18 +19,13 @@ export default function Dashboard() {
       </View>
 
       <ExtractSummary />
-    </View>
+    </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.black,
-    paddingVertical: 32,
-  },
-
   title: {
+    width: '100%',
     marginTop: 32,
     paddingHorizontal: 25,
     fontFamily: theme.fontFamily.inter600,
@@ -40,6 +35,7 @@ const style = StyleSheet.create({
   },
 
   controlsContainer: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,

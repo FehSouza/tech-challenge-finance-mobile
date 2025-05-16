@@ -53,6 +53,7 @@ export const ExtractSummary = () => {
 
 const style = StyleSheet.create({
   container: {
+    width: '100%',
     marginTop: 16,
     paddingHorizontal: 25,
   },

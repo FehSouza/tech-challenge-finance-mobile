@@ -30,6 +30,7 @@ const style = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 16,
     paddingHorizontal: 25,
+    marginBottom: 32,
   },
 
   title: {

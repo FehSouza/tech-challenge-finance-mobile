@@ -41,7 +41,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
       </View>
 
       <View style={style.wrapper}>
-        <TransactionDate />
+        <TransactionDate placeholder='Selecione a data da transação' />
         <Text style={style.messageError}>Mensagem de erro</Text>
       </View>
 
@@ -61,7 +61,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
       <Button>{id ? 'Atualizar' : 'Concluir transação'}</Button>
 
       {id && (
-        <Button variant='outlined' onPress={handleGoBack}>
+        <Button variant='input' onPress={handleGoBack}>
           Cancelar
         </Button>
       )}

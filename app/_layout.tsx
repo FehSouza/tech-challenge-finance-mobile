@@ -18,6 +18,7 @@ const MainRoutes = () => {
       <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name='(tabs)' />
         <Stack.Screen name='edit-transaction/[id]' />
+        <Stack.Screen name='filter/index' />
       </Stack.Protected>
     </Stack>
   );

@@ -6,7 +6,7 @@ export const Pagination = () => {
 
   return (
     <View style={[style.container, { paddingBottom: isOs ? 32 : 64 }]}>
-      <Button variant='outlined'>Ver mais</Button>
+      <Button variant='input'>Ver mais transações</Button>
     </View>
   );
 };

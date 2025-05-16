@@ -3,7 +3,11 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import React, { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
-export const TransactionDate = () => {
+interface TransactionDateProps {
+  placeholder: string;
+}
+
+export const TransactionDate = ({ placeholder }: TransactionDateProps) => {
   const isIOS = Platform.OS === 'ios';
   const [show, setShow] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
@@ -33,7 +37,7 @@ export const TransactionDate = () => {
   return (
     <>
       <Button variant='input' textAlign='left' textActive={!!date} onPress={showPicker}>
-        {!date ? 'Selecione a data da transação' : dateFormatted}
+        {!date ? placeholder : dateFormatted}
       </Button>
 
       {show && (
@@ -67,7 +71,7 @@ export const TransactionDate = () => {
 const style = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 25,
     justifyContent: 'space-between',
   },
 

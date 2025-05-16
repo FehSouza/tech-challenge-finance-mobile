@@ -43,7 +43,7 @@ export const ExtractSummary = () => {
       )}
 
       {TRANSACTIONS_MOCK.length > renderedItems && (
-        <Button variant='texted' color='secondary' onPress={handleNavigate}>
+        <Button variant='input' onPress={handleNavigate}>
           Ver todas as transações
         </Button>
       )}
@@ -67,7 +67,7 @@ const style = StyleSheet.create({
   },
 
   list: {
-    marginBottom: 16,
+    marginBottom: 32,
   },
 
   sectionTitle: {

@@ -1,3 +1,4 @@
+export * from './balance';
 export * from './formatCurrency';
 export * from './groupByMonthYear';
 export * from './masks';

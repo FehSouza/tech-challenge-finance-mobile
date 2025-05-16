@@ -8,6 +8,7 @@ export * from './FormSignUp';
 export * from './FormTransaction';
 export * from './icons';
 export * from './Pagination';
+export * from './ReviewChart';
 export * from './Search';
 export * from './shared';
 export * from './SplashScreenController';

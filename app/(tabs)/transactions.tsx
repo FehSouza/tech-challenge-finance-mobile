@@ -1,4 +1,4 @@
-import { Filter, Pagination, RenderSection, Search } from '@/components';
+import { Filter, Pagination, RenderSection, ReviewChart, Search } from '@/components';
 import { TRANSACTIONS_MOCK } from '@/mock';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
@@ -14,6 +14,8 @@ export default function Transactions() {
   return (
     <ScrollView style={style.container}>
       <Text style={style.title}>Acompanhar</Text>
+
+      <ReviewChart transactions={TRANSACTIONS_MOCK} />
 
       <View style={style.controlsContainer}>
         <Search />

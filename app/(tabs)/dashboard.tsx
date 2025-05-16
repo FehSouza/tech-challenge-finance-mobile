@@ -1,19 +1,15 @@
 import { BalanceValue, ExtractSummary, Filter, Search } from '@/components';
 import { TRANSACTIONS_MOCK } from '@/mock';
 import { theme } from '@/theme';
+import { balance } from '@/utils';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function Dashboard() {
-  const balance = TRANSACTIONS_MOCK.reduce((acc, transaction) => {
-    if (transaction.type === 'deposit') return acc + transaction.value;
-    if (transaction.type === 'withdraw') return acc - transaction.value;
-    if (transaction.type === 'transfer') return acc - transaction.value;
-    return acc;
-  }, 0);
+  const balanceValue = balance(TRANSACTIONS_MOCK);
 
   return (
     <View style={style.container}>
-      <BalanceValue balance={balance} />
+      <BalanceValue balance={balanceValue} />
 
       <Text style={style.title}>Últimas transações</Text>
 

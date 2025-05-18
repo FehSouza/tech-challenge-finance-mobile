@@ -1,14 +1,12 @@
 import { CATEGORIES_TYPES_DICTIONARY_VALUES, CategoryTypeDictionaryValue } from '@/@types/category';
-import { useState } from 'react';
 import { Select } from '../shared';
 
 interface CategoriesOptionsSelectProps {
-  type?: CategoryTypeDictionaryValue;
+  category: CategoryTypeDictionaryValue | null;
+  setCategory: (category: CategoryTypeDictionaryValue) => void;
 }
 
-export const CategoriesOptionsSelect = ({ type }: CategoriesOptionsSelectProps) => {
-  const [category, setCategory] = useState<CategoryTypeDictionaryValue | null>(type ?? null);
-
+export const CategoriesOptionsSelect = ({ category, setCategory }: CategoriesOptionsSelectProps) => {
   return (
     <Select
       placeholder='Selecione a categoria'

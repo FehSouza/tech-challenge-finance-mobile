@@ -1,11 +1,17 @@
-import { BalanceValue, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
+import { BalanceValue, Button, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
+import { auth } from '@/FirebaseConfig';
 import { TRANSACTIONS_MOCK } from '@/mock';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
+import { signOut } from 'firebase/auth';
 import { StyleSheet, Text, View } from 'react-native';
+
 
 export default function Dashboard() {
   const balanceValue = balance(TRANSACTIONS_MOCK);
+  const handleSignOut = async () => {
+    await signOut(auth)
+  }
 
   return (
     <ContainerKeyboardAvoiding>
@@ -19,6 +25,7 @@ export default function Dashboard() {
       </View>
 
       <ExtractSummary />
+      <Button variant='outlined' onPress={handleSignOut}>Logout</Button>
     </ContainerKeyboardAvoiding>
   );
 }

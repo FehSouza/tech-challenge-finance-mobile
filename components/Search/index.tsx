@@ -5,7 +5,7 @@ import { Input } from '../shared';
 export const Search = () => {
   return (
     <View style={style.container}>
-      <Input iconLeft={<SearchIcon />} placeholder='Pesquisa' />
+      <Input iconLeft={<SearchIcon />} placeholder='Pesquisa' inputMode='search'/>
     </View>
   );
 };

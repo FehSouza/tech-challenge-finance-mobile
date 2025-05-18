@@ -7,6 +7,7 @@ interface ButtonProps extends TouchableOpacityProps {
   color?: 'primary' | 'secondary' | 'error';
   textAlign?: 'left' | 'center' | 'right';
   textActive?: boolean;
+  loading?: boolean;
 }
 
 export const Button = ({
@@ -15,6 +16,7 @@ export const Button = ({
   textAlign = 'center',
   textActive,
   children,
+  loading,
   ...props
 }: ButtonProps) => {
   const buttonStyle = [style.base, style[`${variant}_${color}`]];
@@ -28,7 +30,7 @@ export const Button = ({
 
   return (
     <TouchableOpacity style={buttonStyle} activeOpacity={0.8} {...props}>
-      <Text style={textStyle}>{children}</Text>
+      <Text style={textStyle}>{loading ? 'loading...' : children}</Text>
     </TouchableOpacity>
   );
 };

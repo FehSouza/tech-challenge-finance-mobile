@@ -22,6 +22,9 @@ export const Input = ({ placeholder, color = 'primary', iconLeft, iconRight, ...
         style={style.input}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        textContentType='none'
+        keyboardType='default'
+        autoComplete='off'
         {...props}
       />
 
@@ -37,7 +40,6 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 16,
     backgroundColor: theme.colors.gray800,
     borderWidth: 1,
     borderRadius: 8,
@@ -59,6 +61,7 @@ const style = StyleSheet.create({
   icon: {
     width: 16,
     height: 16,
+    marginLeft: 16,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -68,7 +71,7 @@ const style = StyleSheet.create({
     height: '100%',
     flex: 1,
     paddingVertical: 8,
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
     backgroundColor: 'transparent',
     borderWidth: 0,
     fontFamily: theme.fontFamily.inter400,

@@ -24,7 +24,9 @@ export default function TabsLayout() {
         name='dashboard'
         options={{
           tabBarIcon: ({ focused }) => <HomeIcon color={focused ? theme.colors.primary : theme.colors.gray500} />,
+
         }}
+
       />
       <Tabs.Screen
         name='add-transaction'

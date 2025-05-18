@@ -1,6 +1,8 @@
-import { useIsFontReadySelect } from '@/states';
+import { auth } from '@/FirebaseConfig';
+import { dispatchIsAuthenticated, useIsFontReadySelect } from '@/states';
 import { SplashScreen } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useMemo, useState } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -9,11 +11,23 @@ interface SplashScreenControllerProps {
 }
 export const SplashScreenController = ({ children }: SplashScreenControllerProps) => {
   const isFontReady = useIsFontReadySelect();
-  const isReady = useMemo(() => [isFontReady].every(Boolean), [isFontReady]);
+  const [isAuthReady, setIsAuthReady] = useState(false);
+  const isReady = useMemo(() => [isFontReady, isAuthReady].every(Boolean), [isFontReady, isAuthReady]);
 
   useEffect(() => {
     if (isReady) SplashScreen.hideAsync();
-  }, [isFontReady]);
+  }, [isReady]);
+
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, (user) => {
+      if (user) dispatchIsAuthenticated(true);
+      else dispatchIsAuthenticated(false);
+      setIsAuthReady(true);
+    });
+    return () => {
+      unSub();
+    };
+  }, []);
 
   return <>{children}</>;
 };

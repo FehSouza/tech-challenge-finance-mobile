@@ -2,6 +2,7 @@ import { SplashScreenController } from '@/components';
 import { dispatchIsFontReady, useIsAuthenticatedSelect } from '@/states';
 import { theme } from '@/theme';
 import { Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
@@ -11,16 +12,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const MainRoutes = () => {
   const isAuthenticated = useIsAuthenticatedSelect();
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!isAuthenticated}>
-        <Stack.Screen name='(public)' />
-      </Stack.Protected>
-      <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen name='(tabs)' />
-        <Stack.Screen name='edit-transaction/[id]' />
-        <Stack.Screen name='filter/index' />
-      </Stack.Protected>
-    </Stack>
+    <ThemeProvider value={DarkTheme}>
+      <Stack screenOptions={{ headerShown: false, animation: 'none' }}>
+        <Stack.Protected guard={!isAuthenticated}>
+          <Stack.Screen name='(public)' />
+        </Stack.Protected>
+        <Stack.Protected guard={isAuthenticated}>
+          <Stack.Screen name='(tabs)' />
+          <Stack.Screen name='edit-transaction/[id]' />
+          <Stack.Screen name='filter/index' />
+        </Stack.Protected>
+      </Stack>
+    </ThemeProvider>
   );
 };
 

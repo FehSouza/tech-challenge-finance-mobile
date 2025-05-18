@@ -1,17 +1,24 @@
 import { theme } from '@/theme';
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { StyleProp, StyleSheet, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
 
 interface ButtonIconProps extends TouchableOpacityProps {
   children: React.ReactNode;
   variant?: 'texted' | 'outlined' | 'contained' | 'input';
   color?: 'primary' | 'secondary' | 'error';
+  styles?: StyleProp<ViewStyle>;
 }
 
-export const ButtonIcon = ({ variant = 'contained', color = 'primary', children, ...props }: ButtonIconProps) => {
+export const ButtonIcon = ({
+  children,
+  variant = 'contained',
+  color = 'primary',
+  styles,
+  ...props
+}: ButtonIconProps) => {
   const buttonStyle = [style.base, style[`${variant}_${color}`]];
 
   return (
-    <TouchableOpacity style={buttonStyle} activeOpacity={0.8} {...props}>
+    <TouchableOpacity style={[buttonStyle, styles]} activeOpacity={0.8} {...props}>
       {children}
     </TouchableOpacity>
   );
@@ -34,9 +41,9 @@ const style = StyleSheet.create({
     borderColor: theme.colors.primary,
   },
   contained_secondary: {
-    backgroundColor: theme.colors.gray600,
+    backgroundColor: theme.colors.secondary,
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   contained_error: {
     backgroundColor: theme.colors.error,
@@ -52,7 +59,7 @@ const style = StyleSheet.create({
   outlined_secondary: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   outlined_error: {
     backgroundColor: 'transparent',
@@ -79,9 +86,9 @@ const style = StyleSheet.create({
     borderColor: theme.colors.gray800,
   },
   input_secondary: {
-    backgroundColor: theme.colors.gray600,
+    backgroundColor: theme.colors.secondary,
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   input_error: {
     backgroundColor: theme.colors.error,

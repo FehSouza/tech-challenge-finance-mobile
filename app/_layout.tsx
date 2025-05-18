@@ -21,6 +21,7 @@ const MainRoutes = () => {
           <Stack.Screen name='(tabs)' />
           <Stack.Screen name='edit-transaction/[id]' />
           <Stack.Screen name='filter/index' />
+          <Stack.Screen name='account/index' />
         </Stack.Protected>
       </Stack>
     </ThemeProvider>

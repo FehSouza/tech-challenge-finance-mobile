@@ -1,3 +1,4 @@
+import { LoadingAnimatedIcon } from '@/components/icons';
 import { theme } from '@/theme';
 import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
@@ -30,7 +31,9 @@ export const Button = ({
 
   return (
     <TouchableOpacity style={buttonStyle} activeOpacity={0.8} {...props}>
-      <Text style={textStyle}>{loading ? 'loading...' : children}</Text>
+      <Text style={textStyle}>
+        {loading ? <LoadingAnimatedIcon color={variant !== 'contained' ? color : 'white'} /> : children}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -58,9 +61,9 @@ const style = StyleSheet.create({
     borderColor: theme.colors.primary,
   },
   contained_secondary: {
-    backgroundColor: theme.colors.gray600,
+    backgroundColor: theme.colors.secondary,
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   contained_error: {
     backgroundColor: theme.colors.error,
@@ -76,7 +79,7 @@ const style = StyleSheet.create({
   outlined_secondary: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   outlined_error: {
     backgroundColor: 'transparent',
@@ -103,9 +106,9 @@ const style = StyleSheet.create({
     borderColor: theme.colors.gray800,
   },
   input_secondary: {
-    backgroundColor: theme.colors.gray600,
+    backgroundColor: theme.colors.secondary,
     borderWidth: 2,
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
   input_error: {
     backgroundColor: theme.colors.error,
@@ -128,7 +131,7 @@ const style = StyleSheet.create({
     color: theme.colors.primary,
   },
   text_outlined_secondary: {
-    color: theme.colors.gray600,
+    color: theme.colors.secondary,
   },
   text_outlined_error: {
     color: theme.colors.error,
@@ -138,7 +141,7 @@ const style = StyleSheet.create({
     color: theme.colors.primary,
   },
   text_texted_secondary: {
-    color: theme.colors.gray600,
+    color: theme.colors.secondary,
   },
   text_texted_error: {
     color: theme.colors.error,

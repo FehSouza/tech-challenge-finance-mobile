@@ -72,7 +72,7 @@ const style = StyleSheet.create({
     fontFamily: theme.fontFamily.inter400,
     fontSize: 16,
     lineHeight: 18,
-    color: theme.colors.gray600,
+    color: theme.colors.secondary,
     textAlign: 'center',
   },
 });

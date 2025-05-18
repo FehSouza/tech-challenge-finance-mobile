@@ -1,21 +1,33 @@
-import { BalanceValue, Button, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
-import { auth } from '@/FirebaseConfig';
+import {
+  BalanceValue,
+  ButtonIcon,
+  ContainerKeyboardAvoiding,
+  ExtractSummary,
+  Filter,
+  PersonIcon,
+  Search,
+} from '@/components';
 import { TRANSACTIONS_MOCK } from '@/mock';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
-import { signOut } from 'firebase/auth';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-
 export default function Dashboard() {
+  const router = useRouter();
   const balanceValue = balance(TRANSACTIONS_MOCK);
-  const handleSignOut = async () => {
-    await signOut(auth)
-  }
+
+  const handleNavigate = () => router.navigate(`/account`);
 
   return (
     <ContainerKeyboardAvoiding>
-      <BalanceValue balance={balanceValue} />
+      <View style={style.balanceContainer}>
+        <BalanceValue balance={balanceValue} />
+
+        <ButtonIcon variant='input' styles={{ height: 40 }} onPress={handleNavigate}>
+          <PersonIcon />
+        </ButtonIcon>
+      </View>
 
       <Text style={style.title}>Últimas transações</Text>
 
@@ -25,12 +37,19 @@ export default function Dashboard() {
       </View>
 
       <ExtractSummary />
-      <Button variant='outlined' onPress={handleSignOut}>Logout</Button>
     </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
+  balanceContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 16,
+    paddingHorizontal: 25,
+  },
+
   title: {
     width: '100%',
     marginTop: 32,

@@ -24,7 +24,7 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
   }, []);
 
   return (
-    <View style={style.container}>
+    <View>
       <Text style={style.title}>Minha carteira</Text>
 
       <TouchableOpacity style={style.button} onPress={handleShowValue} activeOpacity={0.8}>
@@ -36,11 +36,6 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
 };
 
 const style = StyleSheet.create({
-  container: {
-    width: '100%',
-    paddingHorizontal: 25,
-  },
-
   title: {
     paddingLeft: 31,
     fontFamily: theme.fontFamily.inter600,

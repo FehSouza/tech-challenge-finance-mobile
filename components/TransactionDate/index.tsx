@@ -5,12 +5,13 @@ import { Platform, StyleSheet, View } from 'react-native';
 
 interface TransactionDateProps {
   placeholder: string;
+  date: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }
 
-export const TransactionDate = ({ placeholder }: TransactionDateProps) => {
+export const TransactionDate = ({ placeholder, date, setDate }: TransactionDateProps) => {
   const isIOS = Platform.OS === 'ios';
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState<Date | undefined>();
   const [tempDate, setTempDate] = useState<Date>(new Date());
 
   const showPicker = () => {

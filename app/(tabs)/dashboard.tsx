@@ -1,37 +1,35 @@
-import { BalanceValue, Button, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
-import { auth } from '@/FirebaseConfig';
-import { addTransaction, useInitializeTransactions } from '@/hooks';
+import {
+  BalanceValue,
+  ButtonIcon,
+  ContainerKeyboardAvoiding,
+  ExtractSummary,
+  Filter,
+  PersonIcon,
+  Search,
+} from '@/components';
 import { TRANSACTIONS_MOCK } from '@/mock';
-import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
-import { signOut } from 'firebase/auth';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function Dashboard() {
-  useInitializeTransactions();
-  const transactions = useTransactionsSelect();
+  const router = useRouter();
   const balanceValue = balance(TRANSACTIONS_MOCK);
-  console.log('transactions', transactions);
 
-  const handleSignOut = async () => await signOut(auth);
-
-  const handleAdd = async () => {
-    await addTransaction({
-      type: 'transfer',
-      date: '13/05/2025',
-      value: 5000,
-      category: 'other expenses',
-      title: 'Presente Fulano',
-      attachment: null,
-    });
-  };
+  const handleNavigate = () => router.navigate(`/account`);
 
   return (
     <ContainerKeyboardAvoiding>
-      <BalanceValue balance={balanceValue} />
+      <View style={style.balanceContainer}>
+        <BalanceValue balance={balanceValue} />
 
-      <Text style={style.title}>Últimas transações {transactions.length}</Text>
+        <ButtonIcon variant='input' styles={{ height: 40 }} onPress={handleNavigate}>
+          <PersonIcon />
+        </ButtonIcon>
+      </View>
+
+      <Text style={style.title}>Últimas transações</Text>
 
       <View style={style.controlsContainer}>
         <Search />
@@ -39,17 +37,19 @@ export default function Dashboard() {
       </View>
 
       <ExtractSummary />
-      <Button variant='outlined' onPress={handleSignOut}>
-        Logout
-      </Button>
-      <Button variant='outlined' onPress={handleAdd}>
-        add
-      </Button>
     </ContainerKeyboardAvoiding>
   );
 }
 
 const style = StyleSheet.create({
+  balanceContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 16,
+    paddingHorizontal: 25,
+  },
+
   title: {
     width: '100%',
     marginTop: 32,

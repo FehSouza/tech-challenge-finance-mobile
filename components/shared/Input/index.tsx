@@ -13,7 +13,7 @@ export const Input = ({ placeholder, color = 'primary', iconLeft, iconRight, ...
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View style={[style.container, style[color], isFocused && style.focused]}>
+    <View style={[style.container, style[color], isFocused && color !== 'error' && style.focused]}>
       {!!iconLeft && <View style={style.icon}>{iconLeft}</View>}
 
       <TextInput
@@ -55,7 +55,7 @@ const style = StyleSheet.create({
   },
 
   focused: {
-    borderColor: theme.colors.gray600,
+    borderColor: theme.colors.secondary,
   },
 
   icon: {

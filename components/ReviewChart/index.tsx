@@ -94,7 +94,7 @@ const style = StyleSheet.create({
     fontFamily: theme.fontFamily.inter400,
     fontSize: 12,
     lineHeight: 15,
-    color: theme.colors.gray600,
+    color: theme.colors.secondary,
   },
 
   legendContainer: {
@@ -118,6 +118,6 @@ const style = StyleSheet.create({
     fontFamily: theme.fontFamily.inter400,
     fontSize: 12,
     lineHeight: 15,
-    color: theme.colors.gray600,
+    color: theme.colors.secondary,
   },
 });

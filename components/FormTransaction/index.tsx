@@ -1,3 +1,5 @@
+import { CategoryTypeDictionaryValue } from '@/@types/category';
+import { TransactionTypeDictionaryValue } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { maskCurrency } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -14,21 +16,40 @@ interface FormTransactionProps {
 
 export const FormTransaction = ({ id }: FormTransactionProps) => {
   const router = useRouter();
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+
+  const [type, setType] = useState<TransactionTypeDictionaryValue | null>(null);
+  const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
+  const [date, setDate] = useState<Date | undefined>();
+  const [category, setCategory] = useState<CategoryTypeDictionaryValue | null>(null);
+  const [attachment, setAttachment] = useState<string | null>(null);
+  const [error, setError] = useState({ type: '', title: '', amount: '', date: '' });
+
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+
+  const handleSubmit = () => {
+    setError({ type: '', title: '', amount: '', date: '' });
+    if (!type) setError((prev) => ({ ...prev, type: 'Selecione o tipo da transação' }));
+    if (!title) setError((prev) => ({ ...prev, title: 'Digite o título da transação' }));
+    if (!amount) setError((prev) => ({ ...prev, amount: 'Digite o valor da transação' }));
+    if (!date) setError((prev) => ({ ...prev, date: 'Selecione a data da transação' }));
+    if (!type || !title || !amount || !date) return;
+
+    console.log({ type, title, amount, date, category, attachment });
+  };
 
   const handleGoBack = () => router.back();
 
   return (
     <View style={style.form}>
       <View style={style.wrapper}>
-        <TransactionOptionsSelect />
-        <Text style={style.messageError}>Mensagem de erro</Text>
+        <TransactionOptionsSelect typeTransaction={type} setTypeTransaction={setType} />
+        {error.type && <Text style={style.messageError}>{error.type}</Text>}
       </View>
 
       <View style={style.wrapper}>
-        <Input placeholder='Digite o título da transação' />
-        <Text style={style.messageError}>Mensagem de erro</Text>
+        <Input placeholder='Digite o título da transação' value={title} onChangeText={setTitle} />
+        {error.title && <Text style={style.messageError}>{error.title}</Text>}
       </View>
 
       <View style={style.wrapper}>
@@ -37,12 +58,12 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
           value={amount}
           onChangeText={(value) => setAmount(maskCurrency(value))}
         />
-        <Text style={style.messageError}>Mensagem de erro</Text>
+        {error.amount && <Text style={style.messageError}>{error.amount}</Text>}
       </View>
 
       <View style={style.wrapper}>
-        <TransactionDate placeholder='Selecione a data da transação' />
-        <Text style={style.messageError}>Mensagem de erro</Text>
+        <TransactionDate placeholder='Selecione a data da transação' date={date} setDate={setDate} />
+        {error.date && <Text style={style.messageError}>{error.date}</Text>}
       </View>
 
       {!showAdvancedOptions && (
@@ -53,12 +74,12 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
 
       {showAdvancedOptions && (
         <>
-          <CategoriesOptionsSelect />
+          <CategoriesOptionsSelect category={category} setCategory={setCategory} />
           <Button variant='outlined'>Upload de arquivos</Button>
         </>
       )}
 
-      <Button>{id ? 'Atualizar' : 'Concluir transação'}</Button>
+      <Button onPress={handleSubmit}>{id ? 'Atualizar' : 'Concluir transação'}</Button>
 
       {id && (
         <Button variant='input' onPress={handleGoBack}>

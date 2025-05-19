@@ -1,4 +1,4 @@
-import { Transaction, TRANSACTIONS_TYPES_DICTIONARY } from '@/@types/transaction';
+import { Transaction, TRANSACTIONS_TYPES_DICTIONARY, TransactionType } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { balance, formatCurrency } from '@/utils';
 import { StyleSheet, Text, View } from 'react-native';
@@ -14,21 +14,26 @@ interface DataProps {
   color: string;
 }
 
-const COLORS = ['#47A138', '#bf1313', '#004d61', '#ff5031'];
+const COLORS: Record<TransactionType, string> = {
+  deposit: '#47A138',
+  withdraw: '#bf1313',
+  transfer: '#1868b3',
+  investment: '#059292',
+};
 
 const getChartData = (transactions: Transaction[]): DataProps[] => {
   const values = transactions.reduce((acc, transaction) => {
     const type = transaction.type;
     const value = transaction.value / 100;
 
-    if (!acc[type]) return { ...acc, [type]: { name: TRANSACTIONS_TYPES_DICTIONARY[type], value } };
+    if (!acc[type]) return { ...acc, [type]: { name: TRANSACTIONS_TYPES_DICTIONARY[type], type, value } };
     return { ...acc, [type]: { ...acc[type], value: acc[type].value + value } };
-  }, {} as { [key: string]: { name: string; value: number } });
+  }, {} as { [key: string]: { name: string; type: TransactionType, value: number } });
 
-  return Object.values(values).map((entry, index) => ({
+  return Object.values(values).map((entry) => ({
     value: entry.value,
     name: entry.name,
-    color: COLORS[index] ?? '#47A138',
+    color: COLORS[entry.type] ?? '#47A138',
   }));
 };
 

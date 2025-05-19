@@ -6,7 +6,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 interface TransactionDateProps {
   placeholder: string;
   date: Date | undefined;
-  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setDate: (value: Date | undefined) => void;
 }
 
 export const TransactionDate = ({ placeholder, date, setDate }: TransactionDateProps) => {

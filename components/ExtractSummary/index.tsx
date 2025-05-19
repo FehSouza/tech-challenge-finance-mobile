@@ -1,5 +1,4 @@
 import { Transaction } from '@/@types/transaction';
-import { TRANSACTIONS_MOCK } from '@/mock';
 import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
@@ -28,7 +27,7 @@ export const ExtractSummary = () => {
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
   const transactions = useTransactionsSelect();
 
-  const transactionsSlice = transactions
+  const transactionsSlice = transactions.slice(0, renderedItems);
   const grouped = groupByMonthYear(transactionsSlice);
   const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));
 
@@ -44,7 +43,7 @@ export const ExtractSummary = () => {
         </View>
       )}
 
-      {TRANSACTIONS_MOCK.length > renderedItems && (
+      {transactions.length > renderedItems && (
         <Button variant='input' onPress={handleNavigate}>
           Ver todas as transações
         </Button>

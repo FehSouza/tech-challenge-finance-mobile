@@ -63,4 +63,5 @@ export interface Transaction {
   category: CategoryType;
   title: string;
   attachment: string | null;
+  optimistic?: boolean;
 }

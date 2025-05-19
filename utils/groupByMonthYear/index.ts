@@ -8,7 +8,7 @@ export const groupByMonthYear = (transactions: Transaction[]) => {
     const date = transaction.date;
     if (!date) return acc;
 
-    const [day, month, year] = date.split('/');
+    const [day, month, year] = new Date(date).toLocaleDateString('pt-BR').split('/');
     const monthFormatted = dayjs(`${year}-${month}-${day}`).format('MMMM');
     const monthAndYear = `${MONTHS_DICTIONARY[monthFormatted as keyof typeof MONTHS_DICTIONARY]} - ${year}`;
 

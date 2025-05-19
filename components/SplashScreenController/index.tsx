@@ -17,14 +17,12 @@ export const SplashScreenController = ({ children }: SplashScreenControllerProps
   useEffect(() => {
     if (isReady) SplashScreen.hideAsync();
   }, [isReady]);
-  console.log('isReady', isReady);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       dispatchUser(user);
       dispatchIsAuthenticated(!!user);
       setIsAuthReady(true);
-      console.log('User state changed:', user);
     });
 
     return unSub;

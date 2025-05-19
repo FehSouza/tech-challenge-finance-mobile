@@ -13,14 +13,14 @@ interface TransactionCardProps {
 export const TransactionCard = ({ transaction }: TransactionCardProps) => {
   const router = useRouter();
 
-  const { id, type: typeKey, title, value, category: categoryKey } = transaction;
+  const { id, type: typeKey, title, value, category: categoryKey, optimistic } = transaction;
   const type = TRANSACTIONS_TYPES_DICTIONARY[typeKey] ?? '';
   const category = CATEGORIES_TYPES_DICTIONARY[categoryKey];
   const negative = typeKey === 'withdraw' || typeKey === 'transfer';
 
   let amount = value / 100;
   if (negative) amount *= -1;
-  const isOptimistic = id.startsWith('optimistic');
+  const isOptimistic = !!optimistic || id.startsWith('optimistic');
 
   const handleNavigate = () => {
     if (isOptimistic) return;

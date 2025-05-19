@@ -7,7 +7,8 @@ import {
   PersonIcon,
   Search,
 } from '@/components';
-import { TRANSACTIONS_MOCK } from '@/mock';
+import { useInitializeTransactions } from '@/hooks';
+import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -15,7 +16,9 @@ import { StyleSheet, Text, View } from 'react-native';
 
 export default function Dashboard() {
   const router = useRouter();
-  const balanceValue = balance(TRANSACTIONS_MOCK);
+  const transactions = useTransactionsSelect();
+  const balanceValue = balance(transactions);
+  useInitializeTransactions();
 
   const handleNavigate = () => router.navigate(`/account`);
 

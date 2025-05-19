@@ -2,7 +2,17 @@ import { Transaction } from '@/@types/transaction';
 import { db } from '@/FirebaseConfig';
 import { dispatchTransactions, getTransactions } from '@/states';
 import { getAuth } from 'firebase/auth';
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, query, QuerySnapshot } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDocs,
+  query,
+  QuerySnapshot,
+  updateDoc,
+} from 'firebase/firestore';
 import { useEffect } from 'react';
 
 const getTransactionsCollection = () => {
@@ -28,16 +38,14 @@ const fetchTransactions = async () => {
   const data = await getDocs(q);
   const transactionsData = extractTransactions(data);
   dispatchTransactions(transactionsData);
-  console.log(JSON.stringify(transactionsData, null, 2));
 };
 
-export const addTransaction = async (
-  transaction: Pick<Transaction, 'type' | 'date' | 'value' | 'category' | 'title' | 'attachment'>
-) => {
+export const addNewTransaction = async (transaction: Omit<Transaction, 'id'>) => {
   const collectionRef = getTransactionsCollection();
   const optimisticTransaction = {
     ...transaction,
     id: `optimistic-${Math.random().toString(36).substring(2, 9)}`,
+    optimistic: true,
   } as Transaction;
 
   dispatchTransactions((prev) => [...prev, optimisticTransaction]);
@@ -48,6 +56,25 @@ export const addTransaction = async (
   } catch (error) {
     console.log('Error adding transaction:', error);
     dispatchTransactions((prev) => prev.filter((t) => t !== optimisticTransaction));
+  }
+};
+
+export const updateTransaction = async (transactionId: string, transaction: Partial<Transaction>) => {
+  const transactionItemRef = getTransactionsDocument(transactionId);
+  const optimisticTransaction = getTransactions().find((t) => t.id === transactionId);
+  if (!optimisticTransaction) return;
+
+  dispatchTransactions((prev) =>
+    prev.map((t) => (t.id === transactionId ? { ...t, ...transaction, optimistic: true } : t))
+  );
+  try {
+    await updateDoc(transactionItemRef, transaction);
+    dispatchTransactions((prev) =>
+      prev.map((t) => (t.id === transactionId ? { ...optimisticTransaction, ...transaction } : t))
+    );
+  } catch (error) {
+    console.log('Error updating transaction:', error);
+    dispatchTransactions((prev) => prev.map((t) => (t.id === transactionId ? optimisticTransaction : t)));
   }
 };
 

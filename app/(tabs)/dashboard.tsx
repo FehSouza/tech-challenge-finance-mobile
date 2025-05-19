@@ -1,23 +1,37 @@
 import { BalanceValue, Button, ContainerKeyboardAvoiding, ExtractSummary, Filter, Search } from '@/components';
 import { auth } from '@/FirebaseConfig';
+import { addTransaction, useInitializeTransactions } from '@/hooks';
 import { TRANSACTIONS_MOCK } from '@/mock';
+import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { balance } from '@/utils';
 import { signOut } from 'firebase/auth';
 import { StyleSheet, Text, View } from 'react-native';
 
-
 export default function Dashboard() {
+  useInitializeTransactions();
+  const transactions = useTransactionsSelect();
   const balanceValue = balance(TRANSACTIONS_MOCK);
-  const handleSignOut = async () => {
-    await signOut(auth)
-  }
+  console.log('transactions', transactions);
+
+  const handleSignOut = async () => await signOut(auth);
+
+  const handleAdd = async () => {
+    await addTransaction({
+      type: 'transfer',
+      date: '13/05/2025',
+      value: 5000,
+      category: 'other expenses',
+      title: 'Presente Fulano',
+      attachment: null,
+    });
+  };
 
   return (
     <ContainerKeyboardAvoiding>
       <BalanceValue balance={balanceValue} />
 
-      <Text style={style.title}>Últimas transações</Text>
+      <Text style={style.title}>Últimas transações {transactions.length}</Text>
 
       <View style={style.controlsContainer}>
         <Search />
@@ -25,7 +39,12 @@ export default function Dashboard() {
       </View>
 
       <ExtractSummary />
-      <Button variant='outlined' onPress={handleSignOut}>Logout</Button>
+      <Button variant='outlined' onPress={handleSignOut}>
+        Logout
+      </Button>
+      <Button variant='outlined' onPress={handleAdd}>
+        add
+      </Button>
     </ContainerKeyboardAvoiding>
   );
 }

@@ -20,11 +20,19 @@ export const TransactionCard = ({ transaction }: TransactionCardProps) => {
 
   let amount = value / 100;
   if (negative) amount *= -1;
+  const isOptimistic = id.startsWith('optimistic');
 
-  const handleNavigate = () => router.navigate(`/edit-transaction/${id}`);
+  const handleNavigate = () => {
+    if (isOptimistic) return;
+    router.navigate(`/edit-transaction/${id}`);
+  };
 
   return (
-    <TouchableOpacity style={style.transaction} onPress={handleNavigate} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={[style.transaction, isOptimistic ? style.optimistic : undefined]}
+      onPress={handleNavigate}
+      activeOpacity={0.8}
+    >
       <ConditionTransactionIcon condition={typeKey} />
 
       <View style={style.wrapperTitle}>
@@ -48,6 +56,10 @@ const style = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.gray800,
+  },
+
+  optimistic: {
+    opacity: 0.5,
   },
 
   wrapperTitle: {

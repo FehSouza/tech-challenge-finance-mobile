@@ -1,5 +1,5 @@
 import { auth } from '@/FirebaseConfig';
-import { dispatchIsAuthenticated, useIsFontReadySelect } from '@/states';
+import { dispatchIsAuthenticated, dispatchUser, useIsFontReadySelect } from '@/states';
 import { SplashScreen } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useState } from 'react';
@@ -17,16 +17,17 @@ export const SplashScreenController = ({ children }: SplashScreenControllerProps
   useEffect(() => {
     if (isReady) SplashScreen.hideAsync();
   }, [isReady]);
+  console.log('isReady', isReady);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
-      if (user) dispatchIsAuthenticated(true);
-      else dispatchIsAuthenticated(false);
+      dispatchUser(user);
+      dispatchIsAuthenticated(!!user);
       setIsAuthReady(true);
+      console.log('User state changed:', user);
     });
-    return () => {
-      unSub();
-    };
+
+    return unSub;
   }, []);
 
   return <>{children}</>;

@@ -1,18 +1,29 @@
 import { ButtonIcon, ContainerKeyboardAvoiding, FormTransaction, TrashIcon } from '@/components';
+import { deleteTransaction } from '@/hooks';
 import { theme } from '@/theme';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function EditTransaction() {
+  const router = useRouter();
   const { id } = useLocalSearchParams();
   if (!id) return null;
+
+  const handleDeleteTransaction = () => {
+    if (Array.isArray(id)) {
+      console.error('ID should not be an array');
+      return;
+    }
+    deleteTransaction(id);
+    router.back();
+  };
 
   return (
     <ContainerKeyboardAvoiding>
       <View style={style.container}>
         <Text style={style.title}>Editar transação</Text>
 
-        <ButtonIcon color='error'>
+        <ButtonIcon color='error' onPress={handleDeleteTransaction}>
           <TrashIcon />
         </ButtonIcon>
       </View>

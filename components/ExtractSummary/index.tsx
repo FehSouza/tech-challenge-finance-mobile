@@ -1,5 +1,6 @@
 import { Transaction } from '@/@types/transaction';
 import { TRANSACTIONS_MOCK } from '@/mock';
+import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -25,8 +26,9 @@ const renderedItems = 5;
 export const ExtractSummary = () => {
   const router = useRouter();
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
+  const transactions = useTransactionsSelect();
 
-  const transactionsSlice = TRANSACTIONS_MOCK?.slice(0, renderedItems);
+  const transactionsSlice = transactions
   const grouped = groupByMonthYear(transactionsSlice);
   const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));
 

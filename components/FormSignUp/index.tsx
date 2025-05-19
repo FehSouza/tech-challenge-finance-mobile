@@ -29,6 +29,7 @@ export const FormSignUp = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <View style={style.form}>

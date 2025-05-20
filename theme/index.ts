@@ -6,12 +6,12 @@ export const theme = {
     white: '#FFFFFF',
     black: '#000000',
     overlay: '#000000d9',
-    blue500: '#4C51BF',
+    blue500: '#375EBC',
     gray400: '#919191',
     gray500: '#767676',
     gray800: '#191919',
     gray900: '#181818',
-    green500: '#2C7A7B',
+    green500: '#319795',
   },
 
   fontFamily: {

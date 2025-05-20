@@ -2,7 +2,7 @@ import { CATEGORIES_TYPES_DICTIONARY_VALUES, CategoryTypeDictionaryValue } from 
 import { Select } from '../shared';
 
 interface CategoriesOptionsSelectProps {
-  category: CategoryTypeDictionaryValue | null;
+  category: CategoryTypeDictionaryValue | undefined;
   setCategory: (category: CategoryTypeDictionaryValue) => void;
 }
 

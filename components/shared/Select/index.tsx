@@ -6,7 +6,7 @@ import { SelectItem } from '../SelectItem';
 interface SelectProps<T extends readonly string[]> {
   placeholder: string;
   options: T;
-  value: T[number] | null;
+  value: T[number] | null | undefined;
   onPress: (option: T[number]) => void;
   color?: 'primary' | 'error';
 }

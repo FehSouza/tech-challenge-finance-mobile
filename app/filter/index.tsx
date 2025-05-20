@@ -1,12 +1,35 @@
+import { CategoryTypeDictionaryValue } from '@/@types/category';
 import { Button, CategoriesOptionsSelect, ContainerKeyboardAvoiding, TransactionDate } from '@/components';
+import { fetchTransactions, fetchTransactionsWithFilters } from '@/hooks/useTransactions';
 import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function Filter() {
   const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryTypeDictionaryValue | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
   const handleGoBack = () => router.back();
+
+  const handleFilter = async () => {
+    await fetchTransactionsWithFilters({
+      category: selectedCategory,
+      startDate: startDate,
+      endDate: endDate,
+    });
+    router.back();
+  };
+
+  const handleClearFilters = async () => {
+    setSelectedCategory(undefined);
+    setStartDate(undefined);
+    setEndDate(undefined);
+    await fetchTransactions(); // Fetch all transactions
+    router.back();
+  };
 
   return (
     <ContainerKeyboardAvoiding>
@@ -14,21 +37,21 @@ export default function Filter() {
 
       <View style={style.wrapper}>
         <Text style={style.subTitle}>Categoria</Text>
-        <CategoriesOptionsSelect />
+        <CategoriesOptionsSelect category={selectedCategory} setCategory={setSelectedCategory} />
       </View>
 
       <View style={style.wrapper}>
         <Text style={style.subTitle}>Data</Text>
-        <TransactionDate placeholder='Selecione a data inicial' />
-        <TransactionDate placeholder='Selecione a data final' />
+        <TransactionDate placeholder='Selecione a data inicial' date={startDate} setDate={setStartDate} />
+        <TransactionDate placeholder='Selecione a data final' date={endDate} setDate={setEndDate} />
       </View>
 
       <View style={style.buttonsContainer}>
         <View style={style.button}>
-          <Button variant='outlined'>Limpar</Button>
+          <Button variant='outlined' onPress={handleClearFilters}>Limpar</Button>
         </View>
         <View style={style.button}>
-          <Button>Filtrar</Button>
+          <Button onPress={handleFilter}>Filtrar</Button>
         </View>
       </View>
 

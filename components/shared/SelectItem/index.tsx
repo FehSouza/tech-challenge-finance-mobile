@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface SelectItemProps {
   option: string;
-  value: string | null;
+  value: string | null | undefined;
   handleSelect: (option: string) => void;
   color?: 'primary' | 'error';
 }

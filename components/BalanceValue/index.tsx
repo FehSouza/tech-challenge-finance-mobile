@@ -14,6 +14,8 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
 
   const handleShowValue = () => dispatchShowBalanceValue(!showBalanceValue);
 
+  const isNegative = balance < 0;
+
   useEffect(() => {
     const loadShowBalanceValue = async () => {
       const value = await storageGetItem('showBalanceValue');
@@ -29,7 +31,9 @@ export const BalanceValue = ({ balance }: BalanceValueProps) => {
 
       <TouchableOpacity style={style.button} onPress={handleShowValue} activeOpacity={0.8}>
         {showBalanceValue ? <EyeIcon /> : <EyeCloseIcon />}
-        <Text style={style.text}>{showBalanceValue ? formatCurrency(balance / 100) || '0,00' : '*****'}</Text>
+        <Text style={[style.text, isNegative && style.textNegative]}>
+          {showBalanceValue ? formatCurrency(balance / 100) || '0,00' : '*****'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -55,5 +59,9 @@ const style = StyleSheet.create({
     fontSize: 24,
     lineHeight: 29,
     color: theme.colors.primary,
+  },
+
+  textNegative: {
+    color: theme.colors.error,
   },
 });

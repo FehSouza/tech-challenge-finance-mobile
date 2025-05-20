@@ -1,19 +1,31 @@
-import { useState } from 'react';
+import { fetchTransactionsWithFilters } from '@/hooks';
+import { dispatchSearch, getEndDate, getSelectedCategory, getStartDate, useSearchSelect } from '@/states';
 import { StyleSheet, View } from 'react-native';
 import { SearchIcon } from '../icons';
 import { Input } from '../shared';
 
 export const Search = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const searchTitle = useSearchSelect();
+  const handleSubmit = async () => {
+    const selectedCategory = getSelectedCategory();
+    const startDate = getStartDate();
+    const endDate = getEndDate();
+    await fetchTransactionsWithFilters({
+      category: selectedCategory,
+      startDate: startDate,
+      endDate: endDate,
+      title: searchTitle,
+    });
+  };
   return (
     <View style={style.container}>
       <Input
         iconLeft={<SearchIcon />}
         placeholder='Pesquisa'
         inputMode='search'
-        value={searchTerm}
-        onChangeText={setSearchTerm}
+        value={searchTitle}
+        onChangeText={dispatchSearch}
+        onSubmitEditing={handleSubmit}
       />
     </View>
   );

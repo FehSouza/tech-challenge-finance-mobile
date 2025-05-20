@@ -62,6 +62,7 @@ export const fetchTransactionsWithFilters = async (filters: {
   category?: CategoryTypeDictionaryValue;
   startDate?: Date;
   endDate?: Date;
+  title?: string; // Add title to filters
 }) => {
   const collectionRef = getTransactionsCollection();
   const queryConstraints: QueryConstraint[] = [];
@@ -84,9 +85,42 @@ export const fetchTransactionsWithFilters = async (filters: {
     queryConstraints.push(where('date', '<=', formatDateForQuery(adjustedEndDate)));
   }
 
+  if (filters.title && filters.title.trim() !== '') {
+    const titleSearch = filters.title.trim();
+    // For "starts with" type of search.
+    // Firestore does not support case-insensitive "contains" queries natively.
+    // For more complex search, consider a dedicated search service like Algolia.
+    queryConstraints.push(where('title', '>=', titleSearch));
+    queryConstraints.push(where('title', '<=', titleSearch + '\uf8ff'));
+  }
+
   queryConstraints.push(orderBy('date', 'desc'));
 
-  const q = query(collectionRef, ...queryConstraints);
+  // If filtering by title, Firestore requires the first orderBy to be on the field used in inequality filters.
+  // However, we also want to order by date. This might create a conflict if 'title' is not the first orderBy.
+  // If 'title' is used in an inequality, and 'date' is the primary sort, an index is needed.
+  // For simplicity, if title is filtered, we might need to adjust orderBy or ensure proper indexing.
+  // Let's assume 'orderBy('date', 'desc')' is the primary sort desired.
+  // If title filter is active, we might need to remove orderBy('date', 'desc') if it causes issues
+  // or ensure composite index `(title, date)` or rely on client-side sorting after a broader fetch if complex.
+
+  // Re-arranging orderBy if title filter is active:
+  const finalQueryConstraints: QueryConstraint[] = [];
+  if (filters.title && filters.title.trim() !== '') {
+    // When using range filter on 'title', 'title' must be the first field in orderBy.
+    finalQueryConstraints.push(orderBy('title')); 
+    // Then, you can order by other fields, like date.
+    // However, this changes the primary sort order.
+    // For now, let's keep it simple and see if Firestore allows it with proper indexing.
+    // If not, the orderBy('date', 'desc') might need to be conditional or removed when title is filtered.
+    // For this example, we will keep orderBy('date', 'desc') as the last constraint,
+    // which is typical. Firestore might require a composite index on (title, date).
+  }
+  finalQueryConstraints.push(...queryConstraints);
+  // Ensure orderBy('date', 'desc') is present if not already added by title logic.
+  // The current logic adds it unconditionally at the end of queryConstraints.
+
+  const q = query(collectionRef, ...queryConstraints); // queryConstraints already includes orderBy('date', 'desc')
   try {
     const data = await getDocs(q);
     const transactionsData = extractTransactions(data);

@@ -1,16 +1,26 @@
-import { CategoryTypeDictionaryValue } from '@/@types/category';
 import { Button, CategoriesOptionsSelect, ContainerKeyboardAvoiding, TransactionDate } from '@/components';
+import { Input } from '@/components/shared'; // Import Input
 import { fetchTransactions, fetchTransactionsWithFilters } from '@/hooks/useTransactions';
+import {
+  dispatchEndDate,
+  dispatchSearch,
+  dispatchSelectedCategory,
+  dispatchStartDate,
+  useEndDateSelect,
+  useSearchSelect,
+  useSelectedCategorySelect,
+  useStartDateSelect,
+} from '@/states';
 import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function Filter() {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<CategoryTypeDictionaryValue | undefined>(undefined);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const selectedCategory = useSelectedCategorySelect();
+  const startDate = useStartDateSelect();
+  const endDate = useEndDateSelect();
+  const searchTitle = useSearchSelect();
 
   const handleGoBack = () => router.back();
 
@@ -19,15 +29,17 @@ export default function Filter() {
       category: selectedCategory,
       startDate: startDate,
       endDate: endDate,
+      title: searchTitle,
     });
     router.back();
   };
 
   const handleClearFilters = async () => {
-    setSelectedCategory(undefined);
-    setStartDate(undefined);
-    setEndDate(undefined);
-    await fetchTransactions(); // Fetch all transactions
+    dispatchSelectedCategory(undefined);
+    dispatchStartDate(undefined);
+    dispatchEndDate(undefined);
+    dispatchSearch('');
+    await fetchTransactions();
     router.back();
   };
 
@@ -36,19 +48,26 @@ export default function Filter() {
       <Text style={style.title}>Filtrar</Text>
 
       <View style={style.wrapper}>
+        <Text style={style.subTitle}>Título</Text>
+        <Input placeholder='Pesquisar por título' value={searchTitle} onChangeText={dispatchSearch} />
+      </View>
+
+      <View style={style.wrapper}>
         <Text style={style.subTitle}>Categoria</Text>
-        <CategoriesOptionsSelect category={selectedCategory} setCategory={setSelectedCategory} />
+        <CategoriesOptionsSelect category={selectedCategory} setCategory={dispatchSelectedCategory} />
       </View>
 
       <View style={style.wrapper}>
         <Text style={style.subTitle}>Data</Text>
-        <TransactionDate placeholder='Selecione a data inicial' date={startDate} setDate={setStartDate} />
-        <TransactionDate placeholder='Selecione a data final' date={endDate} setDate={setEndDate} />
+        <TransactionDate placeholder='Selecione a data inicial' date={startDate} setDate={dispatchStartDate} />
+        <TransactionDate placeholder='Selecione a data final' date={endDate} setDate={dispatchEndDate} />
       </View>
 
       <View style={style.buttonsContainer}>
         <View style={style.button}>
-          <Button variant='outlined' onPress={handleClearFilters}>Limpar</Button>
+          <Button variant='outlined' onPress={handleClearFilters}>
+            Limpar
+          </Button>
         </View>
         <View style={style.button}>
           <Button onPress={handleFilter}>Filtrar</Button>

@@ -17,7 +17,7 @@ interface DataProps {
 const COLORS: Record<TransactionType, string> = {
   deposit: '#47A138',
   withdraw: '#bf1313',
-  transfer: '#1868b3',
+  transfer: '#4b04d1',
   investment: '#059292',
 };
 

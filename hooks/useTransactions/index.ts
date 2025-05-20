@@ -9,11 +9,18 @@ import {
   doc,
   DocumentData,
   getDocs,
+  orderBy,
   query,
   QuerySnapshot,
-  updateDoc,
+  updateDoc
 } from 'firebase/firestore';
 import { useEffect } from 'react';
+
+const sortByDate = (a: Transaction, b: Transaction) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB.getTime() - dateA.getTime();
+};
 
 const getTransactionsCollection = () => {
   const auth = getAuth();
@@ -21,6 +28,7 @@ const getTransactionsCollection = () => {
   if (!user) throw new Error('Usuário não autenticado');
   return collection(db, 'transactions', user.uid, 'items');
 };
+
 const getTransactionsDocument = (transactionId: string) => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -34,7 +42,7 @@ const extractTransactions = (data: QuerySnapshot<DocumentData, DocumentData>) =>
 
 const fetchTransactions = async () => {
   const collectionRef = getTransactionsCollection();
-  const q = query(collectionRef);
+  const q = query(collectionRef, orderBy('date', 'desc'));
   const data = await getDocs(q);
   const transactionsData = extractTransactions(data);
   dispatchTransactions(transactionsData);
@@ -48,11 +56,13 @@ export const addNewTransaction = async (transaction: Omit<Transaction, 'id'>) =>
     optimistic: true,
   } as Transaction;
 
-  dispatchTransactions((prev) => [...prev, optimisticTransaction]);
+  dispatchTransactions((prev) => [...prev, optimisticTransaction].sort(sortByDate));
   try {
     const docRef = await addDoc(collectionRef, transaction);
     const newTransaction = { ...transaction, id: docRef.id } as Transaction;
-    dispatchTransactions((prev) => [...prev.filter((t) => t !== optimisticTransaction), newTransaction]);
+    dispatchTransactions((prev) =>
+      [...prev.filter((t) => t !== optimisticTransaction), newTransaction].sort(sortByDate)
+    );
   } catch (error) {
     console.log('Error adding transaction:', error);
     dispatchTransactions((prev) => prev.filter((t) => t !== optimisticTransaction));
@@ -65,12 +75,12 @@ export const updateTransaction = async (transactionId: string, transaction: Part
   if (!optimisticTransaction) return;
 
   dispatchTransactions((prev) =>
-    prev.map((t) => (t.id === transactionId ? { ...t, ...transaction, optimistic: true } : t))
+    prev.map((t) => (t.id === transactionId ? { ...t, ...transaction, optimistic: true } : t)).sort(sortByDate)
   );
   try {
     await updateDoc(transactionItemRef, transaction);
     dispatchTransactions((prev) =>
-      prev.map((t) => (t.id === transactionId ? { ...optimisticTransaction, ...transaction } : t))
+      prev.map((t) => (t.id === transactionId ? { ...optimisticTransaction, ...transaction } : t)).sort(sortByDate)
     );
   } catch (error) {
     console.log('Error updating transaction:', error);
@@ -88,7 +98,7 @@ export const deleteTransaction = async (transactionId: string) => {
     await deleteDoc(transactionItemRef);
   } catch (error) {
     console.log('Error deleting transaction:', error);
-    dispatchTransactions((prev) => [...prev, optimisticTransaction]);
+    dispatchTransactions((prev) => [...prev, optimisticTransaction].sort(sortByDate));
   }
 };
 

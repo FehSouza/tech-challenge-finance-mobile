@@ -1,5 +1,5 @@
 import { Filter, Pagination, RenderSection, ReviewChart, Search } from '@/components';
-import { useTransactionsSelect } from '@/states';
+import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -7,7 +7,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 const itemsPerPage = 10;
 
 export default function Transactions() {
-  const transactions = useTransactionsSelect();
+  const transactions = useTransactionsFilterSelect();
   const transactionsSlice = transactions.slice(0, itemsPerPage);
   const grouped = groupByMonthYear(transactionsSlice);
   const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));

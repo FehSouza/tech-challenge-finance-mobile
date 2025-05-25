@@ -1,5 +1,5 @@
 import { ButtonIcon, ContainerKeyboardAvoiding, FormTransaction, TrashIcon } from '@/components';
-import { deleteTransaction } from '@/hooks';
+import { deleteTransaction } from '@/services';
 import { theme } from '@/theme';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';

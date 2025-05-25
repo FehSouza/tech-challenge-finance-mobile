@@ -8,7 +8,7 @@ import {
   TRANSACTIONS_TYPES_DICTIONARY_MAP,
   TransactionTypeDictionaryValue,
 } from '@/@types/transaction';
-import { addNewTransaction, updateTransaction } from '@/hooks';
+import { addNewTransaction, updateTransaction } from '@/services';
 import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { maskCurrency, undoMaskCurrency } from '@/utils';
@@ -85,7 +85,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
     if (!id) addNewTransaction(transaction);
     if (id) updateTransaction(id, { ...transaction, id });
     clearForm();
-    router.back();
+    router.navigate('/(tabs)/transactions');
   };
 
   const handleSetDate = (newDate: Date | undefined) => {

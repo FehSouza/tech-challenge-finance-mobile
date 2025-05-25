@@ -1,7 +1,8 @@
 import { Button, CategoriesOptionsSelect, ContainerKeyboardAvoiding, TransactionDate } from '@/components';
-import { Input } from '@/components/shared'; // Import Input
-import { fetchTransactions, fetchTransactionsWithFilters } from '@/hooks/useTransactions';
+import { Input } from '@/components/shared';
+import { fetchTransactions, fetchTransactionsWithFilters } from '@/services';
 import {
+  clearPaginationState,
   dispatchEndDate,
   dispatchSearch,
   dispatchSelectedCategory,
@@ -25,22 +26,24 @@ export default function Filter() {
   const handleGoBack = () => router.back();
 
   const handleFilter = async () => {
+    clearPaginationState();
     await fetchTransactionsWithFilters({
       category: selectedCategory,
       startDate: startDate,
       endDate: endDate,
       title: searchTitle,
     });
-    router.back();
+    router.navigate('/(tabs)/transactions');
   };
 
   const handleClearFilters = async () => {
+    clearPaginationState();
     dispatchSelectedCategory(undefined);
     dispatchStartDate(undefined);
     dispatchEndDate(undefined);
     dispatchSearch('');
     await fetchTransactions();
-    router.back();
+    router.navigate('/(tabs)/transactions');
   };
 
   return (

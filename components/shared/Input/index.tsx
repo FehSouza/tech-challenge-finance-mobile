@@ -14,12 +14,16 @@ export const Input = ({ placeholder, color = 'primary', iconLeft, iconRight, ...
 
   return (
     <View style={[style.container, style[color], isFocused && color !== 'error' && style.focused]}>
-      {!!iconLeft && <View style={style.icon}>{iconLeft}</View>}
+      {!!iconLeft && <View style={[style.icon, style.iconLeft]}>{iconLeft}</View>}
 
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={theme.colors.gray400}
-        style={style.input}
+        style={[
+          style.input,
+          iconLeft ? style.inputWithLeftIcon : undefined,
+          iconRight ? style.inputWithRightIcon : undefined,
+        ]}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         textContentType='none'
@@ -28,7 +32,7 @@ export const Input = ({ placeholder, color = 'primary', iconLeft, iconRight, ...
         {...props}
       />
 
-      {!!iconRight && <View style={style.icon}>{iconRight}</View>}
+      {!!iconRight && <View style={[style.icon, style.iconRight]}>{iconRight}</View>}
     </View>
   );
 };
@@ -61,10 +65,17 @@ const style = StyleSheet.create({
   icon: {
     width: 16,
     height: 16,
-    marginLeft: 16,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+  },
+
+  iconLeft: {
+    marginLeft: 16,
+  },
+
+  iconRight: {
+    marginRight: 16,
   },
 
   input: {
@@ -78,5 +89,13 @@ const style = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18,
     color: theme.colors.white,
+  },
+
+  inputWithLeftIcon: {
+    paddingLeft: 8,
+  },
+
+  inputWithRightIcon: {
+    paddingRight: 8,
   },
 });

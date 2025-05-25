@@ -2,6 +2,7 @@ import { DepositIcon } from '@/components/icons/DepositIcon';
 import { InvestmentIcon } from '@/components/icons/InvestmentIcon';
 import { TransferIcon } from '@/components/icons/TransferIcon';
 import { WithdrawIcon } from '@/components/icons/WithdrawIcon';
+import { theme } from '@/theme';
 import { CategoryType } from '../category';
 import { ConvertUnionToTuple } from '../utils';
 
@@ -19,6 +20,13 @@ export const TRANSACTIONS_TYPES_DICTIONARY_MAP = {
   Investimento: 'investment',
   Transferência: 'transfer',
 } as const;
+
+export const TRANSACTIONS_COLORS: Record<TransactionType, string> = {
+  deposit: theme.colors.primary,
+  withdraw: theme.colors.error,
+  transfer: theme.colors.blue500,
+  investment: theme.colors.green500,
+};
 
 export const TRANSACTIONS_TYPES_DICTIONARY_VALUES = Object.values(
   TRANSACTIONS_TYPES_DICTIONARY

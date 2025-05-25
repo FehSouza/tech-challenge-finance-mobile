@@ -1,5 +1,5 @@
 import { CATEGORIES_TYPES_DICTIONARY } from '@/@types/category';
-import { Transaction, TRANSACTIONS_TYPES_DICTIONARY } from '@/@types/transaction';
+import { Transaction, TRANSACTIONS_COLORS, TRANSACTIONS_TYPES_DICTIONARY } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -42,7 +42,7 @@ export const TransactionCard = ({ transaction }: TransactionCardProps) => {
 
       <View style={style.wrapperAmount}>
         <Text style={style.amountText}>{formatCurrency(amount)}</Text>
-        <Text style={[style.typeText, negative && style.typeTextNegative]}>{type}</Text>
+        <Text style={[style.typeText, { color: TRANSACTIONS_COLORS[typeKey] ?? theme.colors.primary }]}>{type}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -98,9 +98,5 @@ const style = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     color: theme.colors.primary,
-  },
-
-  typeTextNegative: {
-    color: theme.colors.error,
   },
 });

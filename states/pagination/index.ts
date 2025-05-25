@@ -8,7 +8,7 @@ type PaginationState = {
   lastVisible: DocumentSnapshot | null;
 };
 const initialValue = {
-  pageSize: 3,
+  pageSize: 2,
   isLastPage: true,
   lastVisible: null,
 } as PaginationState;

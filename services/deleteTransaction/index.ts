@@ -1,6 +1,7 @@
 import { dispatchTransactions, dispatchTransactionsFilter, getTransactions } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { deleteDoc } from 'firebase/firestore';
+import { deleteImage } from '../deleteImage';
 import { getTransactionsDocument } from '../utils';
 
 export const deleteTransaction = async (transactionId: string) => {
@@ -12,6 +13,7 @@ export const deleteTransaction = async (transactionId: string) => {
   dispatchTransactionsFilter((prev) => prev.filter((t) => t.id !== transactionId));
   try {
     await deleteDoc(transactionItemRef);
+    if (optimisticTransaction.attachment) deleteImage(optimisticTransaction.attachment);
   } catch (error) {
     console.log('Error deleting transaction:', error);
     dispatchTransactions((prev) => [...prev, optimisticTransaction].sort(sortTransactionByDate));

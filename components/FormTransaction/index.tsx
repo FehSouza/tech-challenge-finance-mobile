@@ -12,9 +12,10 @@ import { addNewTransaction, updateTransaction } from '@/services';
 import { useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { maskCurrency, undoMaskCurrency } from '@/utils';
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { CategoriesOptionsSelect } from '../CategoriesOptionsSelect';
 import { Button, Input } from '../shared';
 import { TransactionDate } from '../TransactionDate';
@@ -49,7 +50,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
   const [category, setCategory] = useState<CategoryTypeDictionaryValue>(transaction?.category ?? 'Sem Categoria');
   const [attachment, setAttachment] = useState<string | null>(transaction?.attachment ?? null);
   const [error, setError] = useState({ type: '', title: '', amount: '', date: '' });
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(!!transaction?.attachment);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('blur', () => setShowAdvancedOptions(false));
@@ -96,6 +97,22 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
 
   const handleGoBack = () => router.back();
 
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const imageUri = result.assets[0].uri;
+      console.log(result, 'the result');
+      setAttachment(imageUri);
+      console.log('Image picked: ', imageUri);
+    }
+  };
+
   return (
     <View style={style.form}>
       <View style={style.wrapper}>
@@ -132,7 +149,16 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
       {showAdvancedOptions && (
         <>
           <CategoriesOptionsSelect category={category} setCategory={setCategory} />
-          <Button variant='outlined'>Upload de arquivos</Button>
+          {!!attachment && (
+            <View style={{ alignItems: 'center', marginVertical: 16 }}>
+              <Pressable onPress={() => setAttachment(null)}>
+                <Image source={{ uri: attachment }} style={{ width: 200, height: 200 }} />
+              </Pressable>
+            </View>
+          )}
+          <Button variant='outlined' onPress={pickImage}>
+            {attachment ? 'Alterar imagem' : 'Adicionar imagem'}
+          </Button>
         </>
       )}
 

@@ -2,6 +2,8 @@ import { Transaction } from '@/@types/transaction';
 import { dispatchTransactions, dispatchTransactionsFilter, getTransactions } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { updateDoc } from 'firebase/firestore';
+import { deleteImage } from '../deleteImage';
+import { uploadImage } from '../uploadImage';
 import { formatDateForQuery, getTransactionsDocument } from '../utils';
 
 export const updateTransaction = async (transactionId: string, transaction: Partial<Transaction>) => {
@@ -26,6 +28,13 @@ export const updateTransaction = async (transactionId: string, transaction: Part
       .sort(sortTransactionByDate)
   );
   try {
+    if (optimisticTransaction.attachment && !transaction.attachment) {
+      deleteImage(optimisticTransaction.attachment);
+    }
+    if (updatedTransactionData.attachment && typeof updatedTransactionData.attachment === 'string') {
+      const attachmentUrl = await uploadImage(updatedTransactionData.attachment);
+      if (attachmentUrl) updatedTransactionData.attachment = attachmentUrl;
+    }
     await updateDoc(transactionItemRef, updatedTransactionData);
     dispatchTransactions((prev) =>
       prev

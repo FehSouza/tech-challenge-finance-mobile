@@ -2,6 +2,7 @@ import { Transaction } from '@/@types/transaction';
 import { dispatchTransactions, dispatchTransactionsFilter } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { addDoc } from 'firebase/firestore';
+import { uploadImage } from '../uploadImage';
 import { formatDateForQuery, getTransactionsCollection } from '../utils';
 
 export const addNewTransaction = async (transaction: Omit<Transaction, 'id'>) => {
@@ -15,6 +16,10 @@ export const addNewTransaction = async (transaction: Omit<Transaction, 'id'>) =>
   dispatchTransactions((prev) => [...prev, optimisticTransaction].sort(sortTransactionByDate));
   dispatchTransactionsFilter((prev) => [...prev, optimisticTransaction].sort(sortTransactionByDate));
   try {
+    if (transaction.attachment && typeof transaction.attachment === 'string') {
+      const attachmentUrl = await uploadImage(transaction.attachment);
+      if (attachmentUrl) transaction.attachment = attachmentUrl;
+    }
     const docRef = await addDoc(collectionRef, {
       ...transaction,
       date: typeof transaction.date === 'string' ? transaction.date : formatDateForQuery(new Date(transaction.date)), // Ensure date is YYYY-MM-DD string

@@ -85,7 +85,7 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
     if (!id) addNewTransaction(transaction);
     if (id) updateTransaction(id, { ...transaction, id });
     clearForm();
-    router.navigate('/(tabs)/transactions');
+    router.back();
   };
 
   const handleSetDate = (newDate: Date | undefined) => {

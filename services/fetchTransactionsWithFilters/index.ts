@@ -30,7 +30,6 @@ export const fetchTransactionsWithFilters = async (filters: {
     const endDate = new Date(filters.endDate);
     const adjustedEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1);
 
-    console.log(formatDateForQuery(adjustedEndDate));
     queryConstraints.push(where('date', '<=', formatDateForQuery(adjustedEndDate)));
   }
 

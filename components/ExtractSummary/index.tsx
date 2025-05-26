@@ -1,5 +1,5 @@
 import { Transaction } from '@/@types/transaction';
-import { useTransactionsSelect } from '@/states';
+import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -25,7 +25,7 @@ const renderedItems = 5;
 export const ExtractSummary = () => {
   const router = useRouter();
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
-  const transactions = useTransactionsSelect();
+  const transactions = useTransactionsFilterSelect();
 
   const transactionsSlice = transactions.slice(0, renderedItems);
   const grouped = groupByMonthYear(transactionsSlice);

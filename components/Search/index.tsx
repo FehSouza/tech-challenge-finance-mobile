@@ -7,14 +7,12 @@ import {
   getStartDate,
   useSearchSelect,
 } from '@/states';
-import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { SearchIcon } from '../icons';
 import { Input } from '../shared';
 
 export const Search = () => {
   const searchTitle = useSearchSelect();
-  const router = useRouter();
 
   const handleSubmit = async () => {
     const selectedCategory = getSelectedCategory();
@@ -27,7 +25,6 @@ export const Search = () => {
       endDate: endDate,
       title: searchTitle,
     });
-    router.navigate('/(tabs)/transactions');
   };
   return (
     <View style={style.container}>

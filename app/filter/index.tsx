@@ -1,6 +1,6 @@
 import { Button, CategoriesOptionsSelect, ContainerKeyboardAvoiding, TransactionDate } from '@/components';
 import { Input } from '@/components/shared';
-import { fetchTransactions, fetchTransactionsWithFilters } from '@/services';
+import { fetchTransactionsWithFilters } from '@/services';
 import {
   clearPaginationState,
   dispatchEndDate,
@@ -33,7 +33,7 @@ export default function Filter() {
       endDate: endDate,
       title: searchTitle,
     });
-    router.navigate('/(tabs)/transactions');
+    router.back();
   };
 
   const handleClearFilters = async () => {
@@ -42,8 +42,8 @@ export default function Filter() {
     dispatchStartDate(undefined);
     dispatchEndDate(undefined);
     dispatchSearch('');
-    await fetchTransactions();
-    router.navigate('/(tabs)/transactions');
+    await fetchTransactionsWithFilters({});
+    router.back();
   };
 
   return (

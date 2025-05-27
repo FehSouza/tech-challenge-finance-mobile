@@ -38,6 +38,47 @@ Prettier: Formatador de código para manter a consistência e padronização.
 
 ### Variáveis de ambiente
 
+```bash
+EXPO_PUBLIC_API_KEY='<API_KEY>'
+EXPO_PUBLIC_AUTH_DOMAIN='<AUTH_DOMAIN>'
+EXPO_PUBLIC_PROJECT_ID='<PROJECT_ID>'
+EXPO_PUBLIC_STORAGE_BUCKET='<STORAGE_BUCKET>'
+EXPO_PUBLIC_MESSAGING_SENDER_ID='<MESSAGING_SENDER_ID>'
+EXPO_PUBLIC_APP_ID='<APP_ID>'
+EXPO_PUBLIC_MEASUREMENT_ID='<MEASUREMENT_ID>'
+```
+
+### Configurações firebase
+
+1. Firestore
+
+```bash
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow only authenticated content owners access
+    match /transactions/{userId}/items/{document} {
+      allow read, write: if request.auth != null && request.auth.uid == userId
+    }
+  }
+}
+```
+
+2. Storage
+
+```bash
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
 &nbsp;
 
 ### Para rodar o projeto localmente, siga os passos abaixo:

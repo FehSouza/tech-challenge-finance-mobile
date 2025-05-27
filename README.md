@@ -50,7 +50,12 @@ EXPO_PUBLIC_MEASUREMENT_ID='<MEASUREMENT_ID>'
 
 ### Configurações firebase
 
-1. Firestore
+1. Auth
+```
+ativar autenticação por email
+```
+
+2. Firestore
 
 ```bash
 rules_version = '2';
@@ -65,7 +70,7 @@ service cloud.firestore {
 }
 ```
 
-2. Storage
+3. Storage
 
 ```bash
 rules_version = '2';

@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Input } from '../shared';
 
-export const FormSignUp = () => {
-  const router = useRouter();
+const useFormSignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -32,12 +31,41 @@ export const FormSignUp = () => {
       setLoading(false);
     }
   };
-  
 
   const onChange = (setValue: React.Dispatch<React.SetStateAction<string>>, value: string) => {
     setValue(value);
     setError('');
   };
+
+  return {
+    email,
+    password,
+    confirmPassword,
+    error,
+    loading,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    handleCreateAccount,
+    onChange,
+  };
+};
+
+export const FormSignUp = () => {
+  const router = useRouter();
+
+  const {
+    email,
+    password,
+    confirmPassword,
+    error,
+    loading,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    handleCreateAccount,
+    onChange,
+  } = useFormSignUp();
 
   return (
     <View style={style.form}>

@@ -1,7 +1,7 @@
-import { MONTHS_DICTIONARY, Transaction } from '@/@types/transaction';
+import { MONTHS_DICTIONARY, TransactionItem } from '@/@types/transaction';
 import dayjs from 'dayjs';
 
-export const groupByMonthYear = (transactions: Transaction[]) => {
+export const groupByMonthYear = (transactions: TransactionItem[]) => {
   if (!transactions.length) return {};
 
   const data = transactions.reduce((acc, transaction) => {
@@ -14,7 +14,7 @@ export const groupByMonthYear = (transactions: Transaction[]) => {
 
     if (!acc[monthAndYear]) return { ...acc, [monthAndYear]: [transaction] }; // acc[monthAndYear] = [];
     return { ...acc, [monthAndYear]: [...acc[monthAndYear], transaction] };
-  }, {} as Record<string, Transaction[]>);
+  }, {} as Record<string, TransactionItem[]>);
 
   return data;
 };

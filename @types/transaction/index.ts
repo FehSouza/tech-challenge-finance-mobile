@@ -63,7 +63,7 @@ export type TransactionTypeDictionaryValues = ConvertUnionToTuple<
 >;
 export type TransactionTypeDictionaryValue = TransactionTypeDictionaryValues[number];
 
-export interface Transaction {
+export interface TransactionItem {
   id: string;
   date: string;
   value: number;

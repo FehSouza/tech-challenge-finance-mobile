@@ -1,6 +1,6 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 
-export const TRANSACTIONS_MOCK: Transaction[] = [
+export const TRANSACTIONS_MOCK: TransactionItem[] = [
   {
     id: '0bd5',
     type: 'transfer',

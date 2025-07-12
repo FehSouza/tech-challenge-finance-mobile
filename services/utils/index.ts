@@ -1,4 +1,4 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 import { db } from '@/FirebaseConfig';
 import { getAuth } from 'firebase/auth';
 import { collection, doc, DocumentData, QuerySnapshot } from 'firebase/firestore';
@@ -18,7 +18,7 @@ export const getTransactionsDocument = (transactionId: string) => {
 };
 
 export const extractTransactions = (data: QuerySnapshot<DocumentData, DocumentData>) => {
-  return data.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Transaction));
+  return data.docs.map((doc) => ({ ...doc.data(), id: doc.id } as TransactionItem));
 };
 
 export const formatDateForQuery = (date: Date): string => {

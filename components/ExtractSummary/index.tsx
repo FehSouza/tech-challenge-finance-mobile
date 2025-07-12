@@ -1,4 +1,4 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
@@ -8,7 +8,7 @@ import { Button } from '../shared';
 import { TransactionCard } from '../TransactionCard';
 
 interface RenderSectionProps {
-  item: { title: string; transactions: Transaction[] };
+  item: { title: string; transactions: TransactionItem[] };
 }
 
 export const RenderSection = ({ item }: RenderSectionProps) => (

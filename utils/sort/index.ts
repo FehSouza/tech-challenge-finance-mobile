@@ -1,6 +1,6 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 
-export const sortTransactionByDate = (a: Transaction, b: Transaction) => {
+export const sortTransactionByDate = (a: TransactionItem, b: TransactionItem) => {
   const dateA = new Date(a.date);
   const dateB = new Date(b.date);
   return dateA.getTime() - dateB.getTime();

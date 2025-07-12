@@ -1,4 +1,4 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { groupByMonthYear } from '@/utils';
 import { StyleSheet, Text, View } from 'react-native';
@@ -6,7 +6,7 @@ import { RenderSection } from '../ExtractSummary';
 import { Pagination } from '../Pagination';
 
 interface TransactionListProps {
-  transactions: Transaction[];
+  transactions: TransactionItem[];
   itemsPerPage?: number;
 }
 export const TransactionList = ({ transactions, itemsPerPage = 1 }: TransactionListProps) => {

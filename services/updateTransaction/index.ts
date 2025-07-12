@@ -1,4 +1,4 @@
-import { Transaction } from '@/@types/transaction';
+import { TransactionItem } from '@/@types/transaction';
 import { dispatchTransactions, dispatchTransactionsFilter, getTransactions } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { updateDoc } from 'firebase/firestore';
@@ -6,7 +6,7 @@ import { deleteImage } from '../deleteImage';
 import { uploadImage } from '../uploadImage';
 import { formatDateForQuery, getTransactionsDocument } from '../utils';
 
-export const updateTransaction = async (transactionId: string, transaction: Partial<Transaction>) => {
+export const updateTransaction = async (transactionId: string, transaction: Partial<TransactionItem>) => {
   const transactionItemRef = getTransactionsDocument(transactionId);
   const optimisticTransaction = getTransactions().find((t) => t.id === transactionId);
   if (!optimisticTransaction) return;

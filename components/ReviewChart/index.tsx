@@ -1,11 +1,11 @@
-import { Transaction, TRANSACTIONS_COLORS, TRANSACTIONS_TYPES_DICTIONARY, TransactionType } from '@/@types/transaction';
+import { TransactionItem, TRANSACTIONS_COLORS, TRANSACTIONS_TYPES_DICTIONARY, TransactionType } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { balance, formatCurrency } from '@/utils';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 
 interface ReviewChartProps {
-  transactions: Transaction[];
+  transactions: TransactionItem[];
 }
 
 interface DataProps {
@@ -14,7 +14,7 @@ interface DataProps {
   color: string;
 }
 
-const getChartData = (transactions: Transaction[]): DataProps[] => {
+const getChartData = (transactions: TransactionItem[]): DataProps[] => {
   const values = transactions.reduce((acc, transaction) => {
     const type = transaction.type;
     const value = transaction.value / 100;

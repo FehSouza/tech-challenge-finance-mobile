@@ -1,5 +1,5 @@
 import { CATEGORIES_TYPES_DICTIONARY } from '@/@types/category';
-import { Transaction, TRANSACTIONS_COLORS, TRANSACTIONS_TYPES_DICTIONARY } from '@/@types/transaction';
+import { TransactionItem, TRANSACTIONS_COLORS, TRANSACTIONS_TYPES_DICTIONARY } from '@/@types/transaction';
 import { theme } from '@/theme';
 import { formatCurrency } from '@/utils';
 import { useRouter } from 'expo-router';
@@ -7,7 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ConditionTransactionIcon } from '../icons';
 
 interface TransactionCardProps {
-  transaction: Transaction;
+  transaction: TransactionItem;
 }
 
 export const TransactionCard = ({ transaction }: TransactionCardProps) => {

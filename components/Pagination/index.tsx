@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { Button } from '../shared';
 
-export const Pagination = () => {
+const usePagination = () => {
   const [loading, setLoading] = useState(false);
   const selectedCategory = useSelectedCategorySelect();
   const startDate = useStartDateSelect();
@@ -34,7 +34,18 @@ export const Pagination = () => {
     }
   };
 
-  if (isLastPage && !loading) return <View style={[style.container, { paddingBottom: isOs ? 32 : 64 }]}></View>;
+  return {
+    isLastPage,
+    loading,
+    handleLoadMore,
+    isOs,
+  };
+};
+
+export const Pagination = () => {
+  const { isLastPage, loading, handleLoadMore, isOs } = usePagination();
+
+  if (isLastPage && !loading) return <View style={[style.container, { paddingBottom: isOs ? 32 : 64 }]} />;
 
   return (
     <View style={[style.container, { paddingBottom: isOs ? 32 : 64 }]}>

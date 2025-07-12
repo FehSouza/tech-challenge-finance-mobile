@@ -14,31 +14,35 @@ import { balance } from '@/utils';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Dashboard() {
+const useDashboard = () => {
+  useInitializeTransactions();
   const router = useRouter();
   const transactions = useTransactionsSelect();
   const balanceValue = balance(transactions);
-  useInitializeTransactions();
 
   const handleNavigate = () => router.navigate(`/account`);
+  return {
+    balanceValue,
+    handleNavigate,
+  };
+};
+
+export default function Dashboard() {
+  const { balanceValue, handleNavigate } = useDashboard();
 
   return (
     <ContainerKeyboardAvoiding>
       <View style={style.balanceContainer}>
         <BalanceValue balance={balanceValue} />
-
         <ButtonIcon variant='input' styles={{ height: 40 }} onPress={handleNavigate}>
           <PersonIcon />
         </ButtonIcon>
       </View>
-
       <Text style={style.title}>Últimas transações</Text>
-
       <View style={style.controlsContainer}>
         <Search />
         <Filter />
       </View>
-
       <ExtractSummary />
     </ContainerKeyboardAvoiding>
   );

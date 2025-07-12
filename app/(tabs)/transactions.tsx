@@ -9,14 +9,11 @@ export default function Transactions() {
   return (
     <ScrollView style={style.container}>
       <Text style={style.title}>Acompanhar</Text>
-
       <ReviewChart transactions={transactions} />
-
       <View style={style.controlsContainer}>
         <Search />
         <Filter />
       </View>
-
       <TransactionList transactions={transactions} />
     </ScrollView>
   );

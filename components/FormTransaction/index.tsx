@@ -21,11 +21,7 @@ import { Button, Input } from '../shared';
 import { TransactionDate } from '../TransactionDate';
 import { TransactionOptionsSelect } from '../TransactionOptionsSelect';
 
-interface FormTransactionProps {
-  id?: string;
-}
-
-export const FormTransaction = ({ id }: FormTransactionProps) => {
+const useFormTransaction = (id?: string) => {
   const router = useRouter();
   const navigation = useNavigation();
   const transactions = useTransactionsSelect();
@@ -107,12 +103,58 @@ export const FormTransaction = ({ id }: FormTransactionProps) => {
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
       const imageUri = result.assets[0].uri;
-      console.log(result, 'the result');
       setAttachment(imageUri);
-      console.log('Image picked: ', imageUri);
     }
   };
 
+  return {
+    type,
+    title,
+    amount,
+    date,
+    category,
+    attachment,
+    error,
+    showAdvancedOptions,
+    setType,
+    setTitle,
+    setAmount,
+    handleSetDate,
+    setCategory,
+    setAttachment,
+    setError,
+    setShowAdvancedOptions,
+    handleSubmit,
+    handleGoBack,
+    pickImage,
+  };
+};
+
+interface FormTransactionProps {
+  id?: string;
+}
+
+export const FormTransaction = ({ id }: FormTransactionProps) => {
+  const {
+    type,
+    title,
+    amount,
+    date,
+    category,
+    attachment,
+    error,
+    showAdvancedOptions,
+    setType,
+    setTitle,
+    setAmount,
+    handleSetDate,
+    setCategory,
+    setAttachment,
+    setShowAdvancedOptions,
+    handleSubmit,
+    handleGoBack,
+    pickImage,
+  } = useFormTransaction(id);
   return (
     <View style={style.form}>
       <View style={style.wrapper}>

@@ -16,7 +16,7 @@ import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Filter() {
+const useFilter = () => {
   const router = useRouter();
   const selectedCategory = useSelectedCategorySelect();
   const startDate = useStartDateSelect();
@@ -45,6 +45,21 @@ export default function Filter() {
     await fetchTransactionsWithFilters({});
     router.back();
   };
+
+  return {
+    selectedCategory,
+    startDate,
+    endDate,
+    searchTitle,
+    handleGoBack,
+    handleFilter,
+    handleClearFilters,
+  };
+};
+
+export default function Filter() {
+  const { selectedCategory, startDate, endDate, searchTitle, handleGoBack, handleFilter, handleClearFilters } =
+    useFilter();
 
   return (
     <ContainerKeyboardAvoiding>

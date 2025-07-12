@@ -3,7 +3,6 @@ import { PAGE_SIZE } from '@/constants';
 import { useGroupedTransactions } from '@/hooks';
 import { theme } from '@/theme';
 import { StyleSheet, Text, View } from 'react-native';
-import { Pagination } from '../Pagination';
 import { TransactionCardGroup } from '../TransactionCardGroup';
 
 interface TransactionListProps {
@@ -14,21 +13,17 @@ export const TransactionList = ({ transactions, itemsPerPage = PAGE_SIZE }: Tran
   const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions, itemsPerPage });
 
   return (
-    <>
-      <View style={style.transactionsContainer}>
-        {!transactionsSlice.length && <Text style={style.noTransactions}>Sem transações cadastradas</Text>}
+    <View style={style.transactionsContainer}>
+      {!transactionsSlice.length && <Text style={style.noTransactions}>Sem transações cadastradas</Text>}
 
-        {!!transactionsSlice.length && (
-          <View>
-            {groupedTransactions.map((item) => (
-              <TransactionCardGroup key={item.title} item={item} />
-            ))}
-          </View>
-        )}
-      </View>
-
-      {!!transactionsSlice.length && <Pagination />}
-    </>
+      {!!transactionsSlice.length && (
+        <View>
+          {groupedTransactions.map((item) => (
+            <TransactionCardGroup key={item.title} item={item} />
+          ))}
+        </View>
+      )}
+    </View>
   );
 };
 

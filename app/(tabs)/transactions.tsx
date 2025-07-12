@@ -1,20 +1,21 @@
-import { Filter, ReviewChart, Search, TransactionList } from '@/components';
+import { Filter, Pagination, ReviewChart, Search, TransactionList } from '@/components';
 import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Transactions() {
-  const transactions = useTransactionsFilterSelect();
+  const filteredTransactions = useTransactionsFilterSelect();
 
   return (
     <ScrollView style={style.container}>
       <Text style={style.title}>Acompanhar</Text>
-      <ReviewChart transactions={transactions} />
+      <ReviewChart transactions={filteredTransactions} />
       <View style={style.controlsContainer}>
         <Search />
         <Filter />
       </View>
-      <TransactionList transactions={transactions} />
+      <TransactionList transactions={filteredTransactions} itemsPerPage={filteredTransactions.length} />
+      <Pagination />
     </ScrollView>
   );
 }

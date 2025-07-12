@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from '@/constants';
 import { createReStateMethods } from '@raulpesilva/re-state';
 import { DocumentSnapshot } from 'firebase/firestore';
 
@@ -8,7 +9,7 @@ type PaginationState = {
   lastVisible: DocumentSnapshot | null;
 };
 const initialValue = {
-  pageSize: 2,
+  pageSize: PAGE_SIZE,
   isLastPage: true,
   lastVisible: null,
 } as PaginationState;

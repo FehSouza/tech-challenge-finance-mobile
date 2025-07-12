@@ -1,4 +1,5 @@
 import { TransactionItem } from '@/@types/transaction';
+import { PAGE_SIZE } from '@/constants';
 import { useGroupedTransactions } from '@/hooks';
 import { theme } from '@/theme';
 import { StyleSheet, Text, View } from 'react-native';
@@ -9,7 +10,7 @@ interface TransactionListProps {
   transactions: TransactionItem[];
   itemsPerPage?: number;
 }
-export const TransactionList = ({ transactions, itemsPerPage = 5 }: TransactionListProps) => {
+export const TransactionList = ({ transactions, itemsPerPage = PAGE_SIZE }: TransactionListProps) => {
   const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions, itemsPerPage });
 
   return (

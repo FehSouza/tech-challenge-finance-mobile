@@ -1,19 +1,34 @@
+import { PAGE_SIZE } from '@/constants';
 import { useGroupedTransactions } from '@/hooks';
-import { useTransactionsFilterSelect } from '@/states';
+import { useTransactionsFilterSelect, useTransactionsSelect } from '@/states';
 import { theme } from '@/theme';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '../shared';
 import { TransactionCardGroup } from '../TransactionCardGroup';
 
-const itemsPerPage = 5;
-
-export const ExtractSummary = () => {
+const useExtractSummary = () => {
   const router = useRouter();
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
-  const transactions = useTransactionsFilterSelect();
-  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions, itemsPerPage });
+  const transactions = useTransactionsSelect();
+  const filteredTransactions = useTransactionsFilterSelect();
+  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({
+    transactions: filteredTransactions,
+    itemsPerPage: PAGE_SIZE,
+  });
 
+  const showViewAllButton = transactions.length > PAGE_SIZE;
+
+  return {
+    transactionsSlice,
+    groupedTransactions,
+    showViewAllButton,
+    handleNavigate,
+  };
+};
+
+export const ExtractSummary = () => {
+  const { transactionsSlice, groupedTransactions, showViewAllButton, handleNavigate } = useExtractSummary();
   return (
     <View style={style.container}>
       {!transactionsSlice.length && <Text style={style.noTransactions}>Sem transações cadastradas</Text>}
@@ -26,7 +41,7 @@ export const ExtractSummary = () => {
         </View>
       )}
 
-      {transactions.length > itemsPerPage && (
+      {showViewAllButton && (
         <Button variant='input' onPress={handleNavigate}>
           Ver todas as transações
         </Button>

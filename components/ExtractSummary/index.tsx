@@ -12,10 +12,7 @@ const useExtractSummary = () => {
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
   const transactions = useTransactionsSelect();
   const filteredTransactions = useTransactionsFilterSelect();
-  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({
-    transactions: filteredTransactions,
-    itemsPerPage: PAGE_SIZE,
-  });
+  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions: filteredTransactions });
 
   const showViewAllButton = transactions.length > PAGE_SIZE;
 

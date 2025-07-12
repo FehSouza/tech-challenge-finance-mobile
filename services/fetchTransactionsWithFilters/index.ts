@@ -22,7 +22,7 @@ export const fetchTransactionsWithFilters = async (filters: {
     if (firestoreCategoryKey) queryConstraints.push(where('category', '==', firestoreCategoryKey));
     else console.warn(`Category value "${filterCategory}" did not map to a Firestore key.`);
   }
-  queryConstraints.push(orderBy('date', 'asc'));
+  queryConstraints.push(orderBy('date', 'desc'));
 
   if (filters.startDate) queryConstraints.push(where('date', '>=', formatDateForQuery(filters.startDate)));
 

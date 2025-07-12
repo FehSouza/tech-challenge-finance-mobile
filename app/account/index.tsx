@@ -5,23 +5,28 @@ import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Account() {
+const useAccount = () => {
   const router = useRouter();
 
   const handleGoBack = () => router.back();
   const handleSignOut = async () => await signOut(auth);
 
+  return {
+    handleGoBack,
+    handleSignOut,
+  };
+};
+
+export default function Account() {
+  const { handleGoBack, handleSignOut } = useAccount();
+
   return (
     <View style={style.container}>
       <Text style={style.title}>Minha conta</Text>
-
       <Text style={style.text}>Seja bem-vindo, {auth.currentUser?.displayName || auth.currentUser?.email}!</Text>
-
       <Text style={style.text}>Página em desenvolvimento. Em breve, novidades por aqui!</Text>
-
       <View style={style.controlsContainer}>
         <Button onPress={handleGoBack}>Voltar para o dashboard</Button>
-
         <Button variant='input' onPress={handleSignOut}>
           Logout
         </Button>

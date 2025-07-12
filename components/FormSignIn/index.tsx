@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, Input } from '../shared';
 
-export const FormSignIn = () => {
+const useFormSignIn = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +37,23 @@ export const FormSignIn = () => {
   };
 
   const handleRegister = () => router.navigate('/register');
+
+  return {
+    email,
+    password,
+    error,
+    loading,
+    setEmail,
+    setPassword,
+    handleLogin,
+    onChange,
+    handleRegister,
+  };
+};
+
+export const FormSignIn = () => {
+  const { email, password, error, loading, setEmail, setPassword, handleLogin, onChange, handleRegister } =
+    useFormSignIn();
 
   return (
     <View style={style.form}>

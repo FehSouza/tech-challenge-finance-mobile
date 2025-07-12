@@ -9,7 +9,7 @@ interface TransactionListProps {
   transactions: TransactionItem[];
   itemsPerPage?: number;
 }
-export const TransactionList = ({ transactions, itemsPerPage = 1 }: TransactionListProps) => {
+export const TransactionList = ({ transactions, itemsPerPage = 5 }: TransactionListProps) => {
   const transactionsSlice = transactions.slice(0, itemsPerPage);
   const grouped = groupByMonthYear(transactionsSlice);
   const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));

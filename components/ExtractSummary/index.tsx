@@ -1,35 +1,18 @@
-import { TransactionItem } from '@/@types/transaction';
+import { useGroupedTransactions } from '@/hooks';
 import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
-import { groupByMonthYear } from '@/utils';
 import { useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '../shared';
-import { TransactionCard } from '../TransactionCard';
+import { TransactionCardGroup } from '../TransactionCardGroup';
 
-interface RenderSectionProps {
-  item: { title: string; transactions: TransactionItem[] };
-}
-
-export const RenderSection = ({ item }: RenderSectionProps) => (
-  <View>
-    <Text style={style.sectionTitle}>{item.title}</Text>
-    {item.transactions.map((transaction) => (
-      <TransactionCard key={transaction.id} transaction={transaction} />
-    ))}
-  </View>
-);
-
-const renderedItems = 5;
+const itemsPerPage = 5;
 
 export const ExtractSummary = () => {
   const router = useRouter();
   const handleNavigate = () => router.navigate(`/(tabs)/transactions`);
   const transactions = useTransactionsFilterSelect();
-
-  const transactionsSlice = transactions.slice(0, renderedItems);
-  const grouped = groupByMonthYear(transactionsSlice);
-  const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));
+  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions, itemsPerPage });
 
   return (
     <View style={style.container}>
@@ -37,13 +20,13 @@ export const ExtractSummary = () => {
 
       {!!transactionsSlice.length && (
         <View style={style.list}>
-          {groupedArray.map((item) => (
-            <RenderSection key={item.title} item={item} />
+          {groupedTransactions.map((item) => (
+            <TransactionCardGroup key={item.title} item={item} />
           ))}
         </View>
       )}
 
-      {transactions.length > renderedItems && (
+      {transactions.length > itemsPerPage && (
         <Button variant='input' onPress={handleNavigate}>
           Ver todas as transações
         </Button>
@@ -69,13 +52,5 @@ const style = StyleSheet.create({
 
   list: {
     marginBottom: 32,
-  },
-
-  sectionTitle: {
-    paddingVertical: 8,
-    fontFamily: theme.fontFamily.inter400,
-    fontSize: 12,
-    lineHeight: 15,
-    color: theme.colors.white,
   },
 });

@@ -1,18 +1,16 @@
 import { TransactionItem } from '@/@types/transaction';
+import { useGroupedTransactions } from '@/hooks';
 import { theme } from '@/theme';
-import { groupByMonthYear } from '@/utils';
 import { StyleSheet, Text, View } from 'react-native';
-import { RenderSection } from '../ExtractSummary';
 import { Pagination } from '../Pagination';
+import { TransactionCardGroup } from '../TransactionCardGroup';
 
 interface TransactionListProps {
   transactions: TransactionItem[];
   itemsPerPage?: number;
 }
 export const TransactionList = ({ transactions, itemsPerPage = 5 }: TransactionListProps) => {
-  const transactionsSlice = transactions.slice(0, itemsPerPage);
-  const grouped = groupByMonthYear(transactionsSlice);
-  const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));
+  const { transactionsSlice, groupedTransactions } = useGroupedTransactions({ transactions, itemsPerPage });
 
   return (
     <>
@@ -21,8 +19,8 @@ export const TransactionList = ({ transactions, itemsPerPage = 5 }: TransactionL
 
         {!!transactionsSlice.length && (
           <View>
-            {groupedArray.map((item) => (
-              <RenderSection key={item.title} item={item} />
+            {groupedTransactions.map((item) => (
+              <TransactionCardGroup key={item.title} item={item} />
             ))}
           </View>
         )}

@@ -14,4 +14,6 @@ export * from './shared';
 export * from './SplashScreenController';
 export * from './TransactionCard';
 export * from './TransactionDate';
+export * from './TransactionList';
 export * from './TransactionOptionsSelect';
+

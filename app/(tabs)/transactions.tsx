@@ -1,16 +1,10 @@
-import { Filter, Pagination, RenderSection, ReviewChart, Search } from '@/components';
+import { Filter, ReviewChart, Search, TransactionList } from '@/components';
 import { useTransactionsFilterSelect } from '@/states';
 import { theme } from '@/theme';
-import { groupByMonthYear } from '@/utils';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-
-const itemsPerPage = 10;
 
 export default function Transactions() {
   const transactions = useTransactionsFilterSelect();
-  const transactionsSlice = transactions.slice(0, itemsPerPage);
-  const grouped = groupByMonthYear(transactionsSlice);
-  const groupedArray = Object.entries(grouped)?.map(([title, transactions]) => ({ title, transactions }));
 
   return (
     <ScrollView style={style.container}>
@@ -23,19 +17,7 @@ export default function Transactions() {
         <Filter />
       </View>
 
-      <View style={style.transactionsContainer}>
-        {!transactionsSlice.length && <Text style={style.noTransactions}>Sem transações cadastradas</Text>}
-
-        {!!transactionsSlice.length && (
-          <View>
-            {groupedArray.map((item) => (
-              <RenderSection key={item.title} item={item} />
-            ))}
-          </View>
-        )}
-      </View>
-
-      {!!transactionsSlice.length && <Pagination />}
+      <TransactionList transactions={transactions} />
     </ScrollView>
   );
 }
@@ -61,19 +43,5 @@ const style = StyleSheet.create({
     gap: 16,
     marginTop: 16,
     paddingHorizontal: 25,
-  },
-
-  transactionsContainer: {
-    marginTop: 16,
-    paddingHorizontal: 25,
-  },
-
-  noTransactions: {
-    marginTop: 8,
-    fontFamily: theme.fontFamily.inter400,
-    fontSize: 16,
-    lineHeight: 18,
-    color: theme.colors.secondary,
-    textAlign: 'center',
   },
 });

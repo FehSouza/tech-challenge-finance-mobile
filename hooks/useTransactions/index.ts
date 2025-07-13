@@ -1,9 +1,9 @@
-import { fetchTransactions, fetchTransactionsWithFilters } from '@/services';
+import { fetchTransactionsCached, fetchTransactionsWithFilters } from '@/services';
 import { useEffect } from 'react';
 
 export const useInitializeTransactions = () => {
   useEffect(() => {
-    fetchTransactions();
+    fetchTransactionsCached.fetch();
     fetchTransactionsWithFilters({});
   }, []);
 };

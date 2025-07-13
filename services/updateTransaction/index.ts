@@ -3,6 +3,8 @@ import { dispatchTransactions, dispatchTransactionsFilter, getTransactions } fro
 import { sortTransactionByDate } from '@/utils';
 import { updateDoc } from 'firebase/firestore';
 import { deleteImage } from '../deleteImage';
+import { fetchTransactionsCached } from '../fetchTransactions';
+import { fetchTransactionsWithFiltersCached } from '../fetchTransactionsWithFilters';
 import { uploadImage } from '../uploadImage';
 import { formatDateForQuery, getTransactionsDocument } from '../utils';
 
@@ -46,6 +48,8 @@ export const updateTransaction = async (transactionId: string, transaction: Part
         .map((t) => (t.id === transactionId ? { ...optimisticTransaction, ...updatedTransactionData } : t))
         .sort(sortTransactionByDate)
     );
+    fetchTransactionsCached.clear();
+    fetchTransactionsWithFiltersCached.clear();
   } catch (error) {
     console.log('Error updating transaction:', error);
     dispatchTransactions((prev) => prev.map((t) => (t.id === transactionId ? optimisticTransaction : t)));

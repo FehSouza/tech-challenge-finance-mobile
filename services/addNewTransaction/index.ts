@@ -2,6 +2,8 @@ import { TransactionItem } from '@/@types/transaction';
 import { dispatchTransactions, dispatchTransactionsFilter } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { addDoc } from 'firebase/firestore';
+import { fetchTransactionsCached } from '../fetchTransactions';
+import { fetchTransactionsWithFiltersCached } from '../fetchTransactionsWithFilters';
 import { uploadImage } from '../uploadImage';
 import { formatDateForQuery, getTransactionsCollection } from '../utils';
 
@@ -31,6 +33,8 @@ export const addNewTransaction = async (transaction: Omit<TransactionItem, 'id'>
     dispatchTransactionsFilter((prev) =>
       [...prev.filter((t) => t !== optimisticTransaction), newTransaction].sort(sortTransactionByDate)
     );
+    fetchTransactionsCached.clear();
+    fetchTransactionsWithFiltersCached.clear();
   } catch (error) {
     console.log('Error adding transaction:', error);
     dispatchTransactions((prev) => prev.filter((t) => t !== optimisticTransaction));

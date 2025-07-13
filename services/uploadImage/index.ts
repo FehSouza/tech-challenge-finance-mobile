@@ -2,6 +2,8 @@ import { storage } from '@/FirebaseConfig';
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Alert } from 'react-native';
+import { fetchTransactionsCached } from '../fetchTransactions';
+import { fetchTransactionsWithFiltersCached } from '../fetchTransactionsWithFilters';
 
 export const uploadImage = async (attachment: string) => {
   const auth = getAuth();
@@ -19,6 +21,8 @@ export const uploadImage = async (attachment: string) => {
     await uploadBytes(storageRef, blob);
 
     const url = await getDownloadURL(storageRef);
+    fetchTransactionsCached.clear();
+    fetchTransactionsWithFiltersCached.clear();
     return url;
   } catch (error: any) {
     console.error('Error uploading image: ', error);

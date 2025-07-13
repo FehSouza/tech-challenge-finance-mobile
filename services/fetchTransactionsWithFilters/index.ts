@@ -1,17 +1,34 @@
 import { CATEGORIES_TYPES_DICTIONARY_MAP, CategoryTypeDictionaryValue } from '@/@types/category';
+import { SimpleCache } from '@/libs';
 import { dispatchPagination, dispatchTransactionsFilter, getPagination } from '@/states';
 import { sortTransactionByDate } from '@/utils';
-import { getDocs, limit, orderBy, query, QueryConstraint, startAfter, where } from 'firebase/firestore';
+import {
+  DocumentSnapshot,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  QueryConstraint,
+  startAfter,
+  where,
+} from 'firebase/firestore';
 import { extractTransactions, formatDateForQuery, getTransactionsCollection } from '../utils';
 
-export const fetchTransactionsWithFilters = async (filters: {
+interface FetchTransactionsWithFiltersInternalParams {
   category?: CategoryTypeDictionaryValue;
   startDate?: Date;
   endDate?: Date;
   title?: string;
   concat?: boolean;
-}) => {
-  const { pageSize, lastVisible } = getPagination();
+  pageSize: number;
+  lastVisible: DocumentSnapshot | null;
+}
+
+const fetchTransactionsWithFiltersInternal = async ({
+  pageSize,
+  lastVisible,
+  ...filters
+}: FetchTransactionsWithFiltersInternalParams) => {
   const collectionRef = getTransactionsCollection();
   const queryConstraints: QueryConstraint[] = [];
 
@@ -54,10 +71,25 @@ export const fetchTransactionsWithFilters = async (filters: {
     const lastVisible = snapshot.docs[snapshot.docs.length - 1] || null;
     dispatchPagination((prev) => ({ ...prev, isLastPage, lastVisible }));
     if (!filters.concat) dispatchTransactionsFilter(transactionsData);
-    if (filters.concat)
-      dispatchTransactionsFilter((prev) => [...prev, ...transactionsData].sort(sortTransactionByDate));
+    if (filters.concat) dispatchTransactionsFilter((p) => [...p, ...transactionsData].sort(sortTransactionByDate));
   } catch (error) {
     console.error('Error fetching filtered transactions:', error);
     dispatchTransactionsFilter([]);
   }
+};
+
+export const fetchTransactionsWithFiltersCached = new SimpleCache({ fetcher: fetchTransactionsWithFiltersInternal });
+
+interface FetchTransactionsWithFiltersParams {
+  category?: CategoryTypeDictionaryValue;
+  startDate?: Date;
+  endDate?: Date;
+  title?: string;
+  concat?: boolean;
+}
+
+export const fetchTransactionsWithFilters = async (filters: FetchTransactionsWithFiltersParams) => {
+  const { pageSize, lastVisible } = getPagination();
+  const params: FetchTransactionsWithFiltersInternalParams = { ...filters, pageSize, lastVisible };
+  await fetchTransactionsWithFiltersCached.fetch(params);
 };

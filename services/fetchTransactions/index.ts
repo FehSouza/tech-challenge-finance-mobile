@@ -1,3 +1,4 @@
+import { SimpleCache } from '@/libs';
 import { dispatchTransactions } from '@/states';
 import { sortTransactionByDate } from '@/utils';
 import { getDocs, orderBy, query } from 'firebase/firestore';
@@ -10,3 +11,7 @@ export const fetchTransactions = async () => {
   const transactionsData = extractTransactions(data);
   dispatchTransactions(transactionsData.sort(sortTransactionByDate));
 };
+
+export const fetchTransactionsCached = new SimpleCache({
+  fetcher: fetchTransactions,
+});
